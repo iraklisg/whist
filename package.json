@@ -1,0 +1,15 @@
+{
+  "name": "whist",
+  "version": "0.0.1",
+  "description": "Graphical view of whist games",
+  "main": "app.js",
+  "author": "Nick, Ira",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.15.3",
+    "mongoose": "^4.11.3"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
+  }
+}
