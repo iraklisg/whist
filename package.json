@@ -8,8 +8,5 @@
   "dependencies": {
     "express": "^4.15.3",
     "mongoose": "^4.11.3"
-  },
-  "devDependencies": {
-    "nodemon": "^1.11.0"
   }
 }
