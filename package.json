@@ -6,7 +6,10 @@
   "author": "Nick, Ira",
   "license": "MIT",
   "dependencies": {
+    "body-parser": "^1.17.2",
     "express": "^4.15.3",
-    "mongoose": "^4.11.3"
+    "lodash": "^4.17.4",
+    "mongoose": "^4.11.3",
+    "nunjucks": "^3.0.1"
   }
 }
