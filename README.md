@@ -1,4 +1,4 @@
-#App Structure
+# App Structure
     .
     ├── config
     |   └── auth.js             # will hold all our client secret keys (facebook, twitter, google)
