@@ -12,8 +12,6 @@ const Player = require('./models/Player');
 const configViews = require('./config/views');
 const Game = require('./models/Game');
 
-const seedRoutes = require('./routes/seeds');
-
 // Create a new express app
 const app = express();
 
@@ -38,9 +36,6 @@ app.get('/', (req, res) => {
     //     res.render('index.nunj', {players: players});
     // });
 });
-
-//Seed database
-app.use('/seed', seedRoutes);
 
 // Register user routes
 app.use('/users', userRoutes); // console.log "Hello" when visiting example.com/foo/users/foobar
