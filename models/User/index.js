@@ -1,3 +1,8 @@
+/**
+ * User model module.
+ * @module /models/User
+ */
+
 const mongoose = require('mongoose');
 const {validateUsername}  = require('./validate');
 
@@ -11,4 +16,4 @@ const userSchema = mongoose.Schema({
 
 const User = mongoose.model('User', userSchema);
 
-module.exportd = User;
+module.exports = User;
