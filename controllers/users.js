@@ -16,4 +16,4 @@ const getUser = async (username) => {
     return user;
 };
 
-module.exports = getUser;
+module.exports.getUser = getUser;

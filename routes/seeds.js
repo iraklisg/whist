@@ -4,16 +4,16 @@
  */
 
 const express = require('express');
-const {getUser} = require('../controllers/users');
+const seedUsers = require('../seeds/users');
 
 const router = express.Router();
 
 /**
  * Show user
  */
-router.get('/:username', async (req, res, next) => {
+router.get('/users', async (req, res, next) => {
     try {
-        const result = await getUser(req.params.username);
+        const result = await seedUsers();
         return res.status(200).json(result);
     } catch (error) {
         return res.status(500).json({error: error.message});

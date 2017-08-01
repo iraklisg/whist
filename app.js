@@ -5,17 +5,21 @@ const express = require('express');
 const mongoose = require('mongoose');
 const nunjucks = require('nunjucks');
 
-const userRoutes = require('./routes/users');
 const configServer = require('./config/server');
 const configDB = require('./config/database');
-const seedUsers = require('./controllers/seedController');
+
 const Player = require('./models/Player');
 const Game = require('./models/Game');
+
+const userRoutes = require('./routes/users');
+const seedRoutes = require('./routes/seeds');
 
 // Create a new express app
 const app = express();
 
 // Set up mongoose connection (see http://mongoosejs.com/docs/connections.html#use-mongo-client)
+// Use native promises (see http://mongoosejs.com/docs/promises.html)
+mongoose.Promise = global.Promise;
 mongoose.connect(configDB.url);
 
 // Template engine configuration
@@ -27,10 +31,7 @@ nunjucks.configure('views', {
 /************************************************************
  * End points
  ************************************************************/
-
-//Seed database
-seedUsers(app);
-
+// Home page
 app.get('/', (req, res) => {
     Player.find().exec(function(err, players){
         if (err) throw new Error(err);
@@ -38,7 +39,13 @@ app.get('/', (req, res) => {
     });
 });
 
+//Seed database
+app.use('/seed', seedRoutes);
+
+// Register user routes
 app.use('/users', userRoutes); // console.log "Hello" when visiting example.com/foo/users/foobar
 
-// Server is listening
+/************************************************************
+ * Server listening on port
+ ************************************************************/
 app.listen(configServer.port, () => console.log('Example app listening on port 3000!'));
