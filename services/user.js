@@ -16,7 +16,7 @@ const userService = {
      * @returns {Promise|Promise<T>|any|Array|{index: number, input: string}}
      */
     getUserByUsername(username) {
-        return User.find({username}).exec(); // exec() on find returns a Promise instead of the default callback
+        return User.find({username}).exec();  // exec() on find returns a Promise instead of the default callback
     },
 
     /**

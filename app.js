@@ -5,13 +5,13 @@ const express = require('express');
 const mongoose = require('mongoose');
 const nunjucks = require('nunjucks');
 
+const userRoutes = require('./routes/users');
 const configServer = require('./config/server');
 const configDB = require('./config/database');
-
 const Player = require('./models/Player');
+const configViews = require('./config/views');
 const Game = require('./models/Game');
 
-const userRoutes = require('./routes/users');
 const seedRoutes = require('./routes/seeds');
 
 // Create a new express app
@@ -22,11 +22,11 @@ const app = express();
 mongoose.Promise = global.Promise;
 mongoose.connect(configDB.url);
 
+// Static files
+app.use('/static', express.static(`${__dirname}/public`));
+
 // Template engine configuration
-nunjucks.configure('views', {
-    autoescape: true,
-    express: app
-});
+configViews(app, nunjucks);
 
 /************************************************************
  * End points
@@ -35,7 +35,7 @@ nunjucks.configure('views', {
 app.get('/', (req, res) => {
     Player.find().exec(function(err, players){
         if (err) throw new Error(err);
-        res.render('index.html', {players: players});
+        res.render('index.nunj', {players: players});
     });
 });
 
@@ -48,4 +48,4 @@ app.use('/users', userRoutes); // console.log "Hello" when visiting example.com/
 /************************************************************
  * Server listening on port
  ************************************************************/
-app.listen(configServer.port, () => console.log('Example app listening on port 3000!'));
+app.listen(configServer.port, () => console.log(`Example app listening on port ${configServer.port}!`));

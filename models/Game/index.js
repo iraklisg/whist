@@ -1,6 +1,6 @@
 /**
- * User model module.
- * @module /models/User
+ * Game model module.
+ * @module /models/Game
  */
 
 const mongoose = require('mongoose');
