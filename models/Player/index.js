@@ -5,8 +5,16 @@
 
 const mongoose = require('mongoose');
 
+const {validateNickname}  = require('./validate');
+
+
+
 let plainStringType = {type: String, required: false};
-let nicknameType = {type: String, match: /[\w-]+/, required: true, unique: true};
+let nicknameType = {
+    type: String, match: /[\w-]+/,
+    required: [true, 'nickname is required.'],
+    //validate: [{ validator: validateNickname, msg: 'nickname "{VALUE}" already exists!'}],
+};
 
 const playerSchema = mongoose.Schema({
     first_name: plainStringType,
@@ -16,7 +24,24 @@ const playerSchema = mongoose.Schema({
 
 const Player = mongoose.model('Player', playerSchema);
 
-module.exports = Player;
+// Player.schema.path('nickname').validate(function (value, respond) {
+//     Player.findOne({nickname: value}).count(function (err, result) {
+//         if (result > 0) respond(false);
+//         respond(true);
+//     });
+// }, 'This email address is already registered');
+
+// let p1 = new Player({first_name: 'Test 1', last_name: 'Test 2', nickname: 'xxx'});
+// p1.save((err) => {
+//     if (err) console.error(err);
+// });
+// let p2 = new Player({first_name: 'Test 3', last_name: 'Test 4', nickname: 'xxx'});
+// p2.save(function (err) {
+//     if (err) throw err;
+// });
+
+
+
 
 // let players = [
 //     new Player({
@@ -34,6 +59,11 @@ module.exports = Player;
 //         last_name: 'Georgas',
 //         nickname: 'ira'
 //     }),
+//     new Player({
+//         first_name: 'Iraklis 2',
+//         last_name: 'Georgas 2',
+//         nickname: 'ira'
+//     }),
 // ];
 //
 // // Save them
@@ -43,3 +73,5 @@ module.exports = Player;
 //         // saved!
 //     });
 // }
+
+module.exports = Player;
