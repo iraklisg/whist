@@ -13,6 +13,7 @@ let plainStringType = {type: String, required: false};
 let nicknameType = {
     type: String, match: /[\w-]+/,
     required: [true, 'nickname is required.'],
+    unique: true,
     //validate: [{ validator: validateNickname, msg: 'nickname "{VALUE}" already exists!'}],
 };
 
@@ -37,7 +38,7 @@ const Player = mongoose.model('Player', playerSchema);
 // });
 // let p2 = new Player({first_name: 'Test 3', last_name: 'Test 4', nickname: 'xxx'});
 // p2.save(function (err) {
-//     if (err) throw err;
+//     if (err) console.log(err);
 // });
 
 
