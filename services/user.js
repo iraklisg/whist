@@ -26,7 +26,20 @@ const userService = {
      */
     isChuckNorris(username) {
         return username === 'Chuck Norris';
+    },
+
+    /**
+     * Saves a new user to database
+     * @param data
+     * @returns {Promise}
+     */
+    saveUser(data) {
+        console.log(data);
+        return User({
+            username: data.username
+        }).save(); // TODO: assert that returns a fully-fledged Promise
     }
+
 };
 
 module.exports = userService;

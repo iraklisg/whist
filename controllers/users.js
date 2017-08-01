@@ -3,7 +3,7 @@
  * @module /controllers/users
  */
 
-const {getUserByUsername} = require('../services/user');
+const {getUserByUsername, saveUser} = require('../services/user');
 
 /**
  * Get a user by username.
@@ -16,4 +16,13 @@ const getUser = async (username) => {
     return user;
 };
 
-module.exports.getUser = getUser;
+const storeUser = async (data) => {
+  if (!data) throw new Error('No data provided');
+  const newUser = await saveUser(data);
+  return newUser;
+};
+
+module.exports = {
+    getUser,
+    storeUser
+};

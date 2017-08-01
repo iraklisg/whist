@@ -12,8 +12,6 @@ const Player = require('./models/Player');
 const configViews = require('./config/views');
 const Game = require('./models/Game');
 
-const seedRoutes = require('./routes/seeds');
-
 // Create a new express app
 const app = express();
 
@@ -33,14 +31,11 @@ configViews(app, nunjucks);
  ************************************************************/
 // Home page
 app.get('/', (req, res) => {
-    Player.find().exec(function(err, players){
+    Player.find().exec(function (err, players) {
         if (err) throw new Error(err);
         res.render('index.nunj', {players: players});
     });
 });
-
-//Seed database
-app.use('/seed', seedRoutes);
 
 // Register user routes
 app.use('/users', userRoutes);
