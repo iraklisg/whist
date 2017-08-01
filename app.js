@@ -43,7 +43,7 @@ app.get('/', (req, res) => {
 app.use('/seed', seedRoutes);
 
 // Register user routes
-app.use('/users', userRoutes); // console.log "Hello" when visiting example.com/foo/users/foobar
+app.use('/users', userRoutes);
 
 /************************************************************
  * Server listening on port
