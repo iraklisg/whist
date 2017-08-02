@@ -35,6 +35,10 @@ app.get('/', (req, res) => {
     //     if (err) throw new Error(err);
     //     res.render('index.nunj', {players: players});
     // });
+    res.status(200).json({
+        message: 'Hello world!',
+        foo: 'bar'
+    });
 });
 
 // Register user routes
@@ -44,3 +48,8 @@ app.use('/users', userRoutes); // console.log "Hello" when visiting example.com/
  * Server listening on port
  ************************************************************/
 app.listen(configServer.port, () => console.log(`Example app listening on port ${configServer.port}!`));
+
+/************************************************************
+ * Export app to use it in testing
+ ************************************************************/
+module.exports.app = app;
