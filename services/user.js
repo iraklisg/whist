@@ -5,15 +5,16 @@
 
 const User = require('../models/User');
 
-/**
- * The user service.
- * @type {{getUserByUsername: (function(*): (Promise|Promise.<T>|any|Array|{index: number, input: string})), isChuckNorris: (function(*): boolean)}}
- */
 const userService = {
+
+    getAllUsers() {
+        return User.find({}).exec();
+    },
+
     /**
      * Finds a user by username
      * @param username
-     * @returns {Promise|Promise<T>|any|Array|{index: number, input: string}}
+     * @returns {Promise}
      */
     getUserByUsername(username) {
         return User.find({username}).exec();  // exec() on find returns a Promise instead of the default callback
@@ -31,15 +32,11 @@ const userService = {
     /**
      * Saves a new user to database
      * @param data
-     * @returns {Promise}
+     * @returns {Promise} - Either fulfilled with new user or rejected with error
      */
     saveUser(data) {
-        console.log(data);
-        return User({
-            username: data.username
-        }).save(); // TODO: assert that returns a fully-fledged Promise
+        return User({username: data.username}).save()
     }
-
 };
 
 module.exports = userService;
