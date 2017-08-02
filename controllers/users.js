@@ -17,9 +17,9 @@ const getUser = async (username) => {
 };
 
 const storeUser = async (data) => {
-  if (!data) throw new Error('No data provided');
-  const newUser = await saveUser(data);
-  return newUser;
+    if (!data) throw new Error('No data provided');
+    const newUser = await saveUser(data);
+    return newUser;
 };
 
 module.exports = {

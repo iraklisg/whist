@@ -10,7 +10,7 @@ const {getUser, storeUser} = require('../controllers/users');
 // create application/json parser
 const jsonParser = bodyParser.json();
 // create application/x-www-form-urlencoded parser
-const urlencodedParser = bodyParser.urlencoded({ extended: false });
+const urlencodedParser = bodyParser.urlencoded({extended: false});
 
 const router = express.Router();
 
