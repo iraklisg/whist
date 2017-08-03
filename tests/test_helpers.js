@@ -2,34 +2,47 @@ const mongoose = require('mongoose');
 // mongoose.Promise = global.Promise;
 
 module.exports = {
-    setupDatabase(Model) {
+    /**
+     * Use this function in the beginning of each test, to properly a testing database
+     * @param {String} databaseName - The name of the database
+     * @param {Array} collections - An array of models
+     */
+    setupDatabase(databaseName, collections) {
+
         /**
-         * Before all tests, open a new mongodb connection
+         * Before all tests:
+         *  - Disconnects all connections (prevent accessing the default connection and alter data)
+         *  - connect to testing database
+         *  - listen for 'open' or 'error' event
          */
         before((done) => {
-            mongoose.connect("mongodb://localhost:27017/whist_testing", {useMongoClient: true});
-            mongoose.connection
-                .once('open', () => {
-                    console.log('mongoDB is connected');
-                    done();
-                })
-                .on('error', (err) => console.warn(err));
+            mongoose.disconnect((err) => {
+                if (err) console.warn(err);
+                console.log('All connections closed');
+            })
+                .then(() => {
+                    const promise = mongoose.connect(`mongodb://localhost:27017/${databaseName}`, {
+                        useMongoClient: true
+                    });
+                    promise.then(connection => {
+                        console.log(`Connected to ${connection.db.databaseName} database`);
+                        done()
+                    });
+                    promise.catch(err => console.warn(err));
+                });
         });
 
         /**
-         * After each test clear database
+         * After each test clear all collections
          */
         beforeEach((done) => {
-            Model.remove({}, (err) => {
-                if (err) console.warn(err);
-                console.log('User collection is clear');
-                done();
-            })
-            // mongoose.connection.db.dropDatabase(done);
-
-            // mongoose.connection.collection.users.drop(() => { // does mongo create collections on the fly???
-            //     done();
-            // })
+            collections.forEach(collection => {
+                collection.remove({}, (err) => {
+                    if (err) console.warn(err);
+                    console.log('User collection is clear');
+                    done();
+                });
+            });
         });
 
         /**
@@ -37,10 +50,9 @@ module.exports = {
          */
         after((done) => {
             mongoose.disconnect(() => {
-                console.log('Connection is closed'); // we have to assure that all db transactions are completed
+                console.log('Testing connection is closed'); // we have to assure that all db transactions are completed
                 done();
             });
-            // mongoose.connection.close(done);
         });
     }
 };

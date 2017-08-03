@@ -4,18 +4,18 @@ const request = require('supertest');
 const {expect} = require('chai');
 const mongoose = require('mongoose');
 
-const {app} = require('../app');
+// const {app} = require('../app');
 const User = require('../models/User');
 
 const {setupDatabase} = require('./test_helpers');
 
-setupDatabase(User);
+setupDatabase('whist_testing', [User]);
 
 describe('Users', () => {
-    it('should list all users', () => {
+    it('should list all users', (done) => {
         // must connect to testing database
         // must seed with some users
         // assert that we return al users
-        User({username: 'lololo'}).save()
+        User({username: 'lololo'}).save(done);
     });
 });
