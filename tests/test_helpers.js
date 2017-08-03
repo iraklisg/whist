@@ -13,23 +13,13 @@ module.exports = {
          * Before all tests:
          *  - Disconnects all connections (prevent accessing the default connection and alter data)
          *  - connect to testing database
-         *  - listen for 'open' or 'error' event
          */
         before((done) => {
-            mongoose.disconnect((err) => {
-                if (err) console.warn(err);
-                console.log('All connections closed');
-            })
-                .then(() => {
-                    const promise = mongoose.connect(`mongodb://localhost:27017/${databaseName}`, {
-                        useMongoClient: true
-                    });
-                    promise.then(connection => {
-                        console.log(`Connected to ${connection.db.databaseName} database`);
-                        done()
-                    });
-                    promise.catch(err => console.warn(err));
-                });
+            mongoose
+                .disconnect()
+                .then(() => mongoose.connect(`mongodb://localhost:27017/${databaseName}`, {useMongoClient: true}))
+                .then(() => done())
+                .catch(err => console.error(err));
         });
 
         /**
@@ -37,11 +27,7 @@ module.exports = {
          */
         beforeEach((done) => {
             collections.forEach(collection => {
-                collection.remove({}, (err) => {
-                    if (err) console.warn(err);
-                    console.log('User collection is clear');
-                    done();
-                });
+                collection.remove({}, err => err ? console.error(err) : done());
             });
         });
 
@@ -49,10 +35,9 @@ module.exports = {
          * After all test close the connection
          */
         after((done) => {
-            mongoose.disconnect(() => {
-                console.log('Testing connection is closed'); // we have to assure that all db transactions are completed
-                done();
-            });
+            mongoose.disconnect()
+                .then(() => done())
+                .catch(err => console.error(err));
         });
     }
 };
