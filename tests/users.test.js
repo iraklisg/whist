@@ -35,7 +35,7 @@ describe('Test USER endpoints', () => {
                         .expect(res => {
                             res.body.should.containSubset(users)
                         })
-                        .end(done)
+                        .end(done);
                 });
         });
     });
@@ -52,7 +52,7 @@ describe('Test USER endpoints', () => {
                         .expect(res => {
                             res.body.should.contain.an.item.with.property('username', user.username)
                         })
-                        .end(done)
+                        .end(done);
                 })
         });
     });
@@ -67,7 +67,25 @@ describe('Test USER endpoints', () => {
                 .expect(res => {
                     expect(res.body).to.have.a.property('username', data.username)
                 })
-                .end(done)
+                .end(done);
         })
     });
+
+    describe('PUT /users/:id', () => {
+        it('should update and return the updated user', (done) => {
+            // Given we have a user stored in database
+            const user = {username: 'Patric'};
+            User.create(user)
+                .then(() => {
+                    request(app)
+                        .put('/users/:id')
+                        .send({username: 'Patric_updated'})
+                        .expect(200)
+                        .expect(res => {
+                            expect(res.body).to.have.a.property('username', 'Patric_updated')
+                        })
+                        .end(done);
+                })
+        })
+    })
 });
