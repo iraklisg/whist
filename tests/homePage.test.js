@@ -8,10 +8,6 @@ const {expect} = require('chai');
 
 const {app} = require('../app');
 
-it('should add two numbers', () => {
-    expect(1).to.eqls(1);
-});
-
 describe('Home Page', () => {
     it('should return hello world response', (done) => {
         request(app)

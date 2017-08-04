@@ -22,12 +22,12 @@
  * @module /controllers/users
  */
 const _ = require('lodash');
-const {getUserByUsername, saveUser, getAllUsers} = require('../services/user');
+const {getUserByUsername, saveUser, getAllUsers, updateUser} = require('../services/users');
 
 const userController = {
 
     /**
-     * Get all users from database
+     * Get all users from database.
      * @returns {Promise.<*>}
      */
     async getUsers() {
@@ -37,7 +37,7 @@ const userController = {
     },
 
     /**
-     * Get a user by username from database
+     * Get a user by username from database.
      * @param username
      * @returns {Promise.<*>}
      */
@@ -47,13 +47,24 @@ const userController = {
     },
 
     /**
-     * Save a new user to database
+     * Save a new user to database.
      * @param data
      * @returns {Promise.<*>}
      */
     async storeUser(data) {
         if (_.isEmpty(data)) throw new Error('No data provided'); // see https://stackoverflow.com/questions/679915/how-do-i-test-for-an-empty-javascript-object
         return saveUser(data);
+    },
+
+    /**
+     * Update an existing user.
+     * @param id
+     * @param data
+     * @returns {Promise.<void>}
+     */
+    async updateUser(id, data) {
+        if (_.isEmpty(data)) throw new Error('No data provided');
+        return updateUser(id, data);
     }
 };
 

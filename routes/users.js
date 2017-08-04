@@ -5,7 +5,7 @@
 
 const express = require('express');
 const bodyParser = require('body-parser');
-const {getUser, storeUser, getUsers} = require('../controllers/users');
+const {getUser, storeUser, getUsers, updateUser} = require('../controllers/users');
 
 // create application/json parser
 const jsonParser = bodyParser.json();
@@ -47,6 +47,21 @@ router.post('/', jsonParser, async (req, res) => {
         return res.status(200).json(newUser);
     } catch (err) {
         return res.status(500).json({error: err.message});
+    }
+});
+
+/**
+ * Update an existing user.
+ */
+router.put('/:id', jsonParser, async (req, res) => {
+    const id = req.params.id
+        , data = req.body;
+
+    try {
+        const updatedUser = await updateUser(id, data);
+        return res.status(200).json(updatedUser);
+    } catch (err) {
+        return res.status(500).json(err);
     }
 });
 

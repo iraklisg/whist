@@ -13,7 +13,7 @@ const userService = {
 
     /**
      * Finds a user by username
-     * @param username
+     * @param {String} username
      * @returns {Promise}
      */
     getUserByUsername(username) {
@@ -22,8 +22,8 @@ const userService = {
 
     /**
      * Checks if a user is Chuck Norris
-     * @param username
-     * @returns {boolean}
+     * @param {String} username
+     * @returns {Boolean}
      */
     isChuckNorris(username) {
         return username === 'Chuck Norris';
@@ -31,12 +31,24 @@ const userService = {
 
     /**
      * Saves a new user to database
-     * @param data
+     * @param {Object} data
      * @returns {Promise} - Either fulfilled with new user or rejected with error
      */
     saveUser(data) {
-        return User({username: data.username}).save()
+        return User({username: data.username}).save();
+    },
+
+    /**
+     * Update an existing user
+     * @param id
+     * @param data
+     * @returns {Promise}
+     */
+    updateUser(id, data) {
+        return User.findOneAndUpdate(id, {$set: data}, {new: true}).exec(); // ╯°□°）╯︵ ┻━┻
+        // https://stackoverflow.com/questions/32811510/mongoose-findoneandupdate-doesnt-return-updated-document
     }
+
 };
 
 module.exports = userService;

@@ -1,4 +1,5 @@
 // see https://medium.com/@danmolitor/writing-tests-for-mongo-mongoose-with-mocha-7e98be740074
+// We cannot use async/await  (⌣_⌣”) (see https://github.com/mochajs/mocha/issues/2407)
 
 const request = require('supertest');
 const chai = require('chai');
@@ -14,9 +15,7 @@ chai.use(require('chai-subset'));
 
 setupDatabase('whist_testing', [User]);
 
-describe('Test USER endpoints', () => {
-
-    // We cannot use async/await  (⌣_⌣”) (see https://github.com/mochajs/mocha/issues/2407)
+describe('USER endpoints', () => {
 
     describe('GET /users', () => {
         it('should list all users', (done) => {
@@ -76,13 +75,13 @@ describe('Test USER endpoints', () => {
             // Given we have a user stored in database
             const user = {username: 'Patric'};
             User.create(user)
-                .then(() => {
+                .then( user => {
                     request(app)
-                        .put('/users/:id')
-                        .send({username: 'Patric_updated'})
+                        .put(`/users/${user.id}`)
+                        .send({username: 'Patric Star'})
                         .expect(200)
                         .expect(res => {
-                            expect(res.body).to.have.a.property('username', 'Patric_updated')
+                            expect(res.body).to.have.a.property('username', 'Patric Star');
                         })
                         .end(done);
                 })

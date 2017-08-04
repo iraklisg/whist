@@ -5,7 +5,7 @@
     |   ├── database.js         # will hold our database connection settings
     |   └── passport.js         # configuring the strategies for passport
     ├── controllers
-    |   └── user.js             # our user controller
+    |   └── users.js             # our user controller
     ├── libs                    # our custom classes/functions/modules
     ├── models
     |   └── User
@@ -16,7 +16,7 @@
     |   ├── js                  # contains client side JavaScript
     |   └── images
     ├── services
-    |   └── user.js             # our user service
+    |   └── users.js             # our user service
     ├── tests
     |   └── user.test.js        # our user tests
     ├── views
@@ -48,9 +48,9 @@
     |   |       ├── index.js        # our user model (mongoose Schema)
     |   |       └── validate.js     # our model validation 
     |   ├── seeds
-    |   |   └── user.js             # our user seeds
+    |   |   └── users.js             # our user seeds
     |   ├── services
-    |   |   └── user.js             # our user service
+    |   |   └── users.js             # our user service
     |   ├── tests
     |   |   └── user.test.js        # our user tests
     |   ├── views
