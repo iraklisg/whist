@@ -26,7 +26,7 @@ describe('USER service', () => {
                 })
                 .then(res => {
                     // console.log(res);
-                    expect(res.username).to.equals('Mr. fCrabs');
+                    expect(res.username).to.equals('Mr. Crabs');
                 })
         });
     });

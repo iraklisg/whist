@@ -6,36 +6,22 @@ const h = require('./testHelpers');
 
 const expect = chai.expect;
 
-before(() => {
-    return h.connect('whist_testing')
-});
+before(() => h.connect('whist_testing'));
 
-beforeEach(() => {
-    return h.clear(User);
-});
+beforeEach(() => User.create({username: 'Eugene'}));
 
-after(() => {
-    return h.disconnectAll();
-});
+afterEach(() => h.clear(User));
+
+after(() => h.disconnectAll());
 
 describe('USER controller', () => {
 
     describe('#putUser()', () => {
-        it('should update a user in database', (done) => {
+        it('should update a user in database', () => {
             // Given we have a user stored in database
-            User.create({username: 'Eugene'})
-                .then(user => {
-                    const id = user.id
-                        , formData = {username: 'Mr. Crabs'};
-
-                    return putUser(id, formData) // return a promise
-                                                    // see also https://stackoverflow.com/questions/26571328/how-do-i-properly-test-promises-with-mocha-and-chai
-                })
-                .then(res => {
-                    expect(res.username).to.equals('Mr. Crabs');
-                    done();
-                })
-                .catch(err => done(err))
+            return User.find({username: 'Eugene'})
+                .then(user => putUser(user.id, {username: 'Mr. Crabs'}))
+                .then(res => expect(res.username).to.equals('Mr. Crabs'))
         });
     });
 });
