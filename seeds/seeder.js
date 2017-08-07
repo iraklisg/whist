@@ -1,3 +1,9 @@
+/**
+ * Seed database
+ * Run `node ./seeds/seeder.js` from terminal
+ * @type {*|Mongoose}
+ */
+
 const mongoose = require('mongoose');
 const _ = require('lodash');
 
@@ -57,6 +63,9 @@ const seedGames = async (data) => {
     }
 };
 
-let p = seedGames(data);
-
-p.catch(err => console.log(err));
+seedGames(data)
+    .then(() => {
+        console.log('Database seeded');
+        process.exit();
+    })
+    .catch(err => console.error(err));

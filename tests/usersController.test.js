@@ -20,7 +20,7 @@ after(() => {
 
 describe('USER controller', () => {
 
-    describe('#updateUser()', () => {
+    describe('#putUser()', () => {
         it('should update a user in database', (done) => {
             // Given we have a user stored in database
             User.create({username: 'Eugene'})
