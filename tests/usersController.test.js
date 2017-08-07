@@ -1,7 +1,7 @@
 const chai = require('chai');
 
 const User = require('../models/User');
-const {updateUser} = require('../controllers/users');
+const {putUser} = require('../controllers/users');
 const h = require('./testHelpers');
 
 const expect = chai.expect;
@@ -28,7 +28,7 @@ describe('USER controller', () => {
                     const id = user.id
                         , formData = {username: 'Mr. Crabs'};
 
-                    return updateUser(id, formData) // return a promise
+                    return putUser(id, formData) // return a promise
                                                     // see also https://stackoverflow.com/questions/26571328/how-do-i-properly-test-promises-with-mocha-and-chai
                 })
                 .then(res => {

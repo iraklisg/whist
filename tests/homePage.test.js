@@ -13,12 +13,9 @@ describe('Home Page', () => {
         request(app)
             .get('/')
             .expect(200)
-            .expect((res) => { // res is the http response
-                expect(res.body).to.include({message: 'Hello world!'}); // use the chai assertion library
-            })
-            .end((err, res) => {
-                if (err) done(err);
-                done();
-            });
+            // .expect((res) => { // res is the http response
+            //     expect(res.body).to.include({message: 'Hello world!'}); // use the chai assertion library
+            // })
+            .end(done);
     });
 });
