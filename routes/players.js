@@ -21,7 +21,7 @@ const router = express.Router();
 router.get('/', async (req, res) => {
     try {
         const players = await getPlayers();
-        return res.status(200).json(players);
+        return res.render('players/index', {players: players});
     } catch (err) {
         return res.status(500).json({error: err.message});
     }

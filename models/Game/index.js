@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 
 const gameSchema = mongoose.Schema({
     place: String,
-    datetime: {type: Date},
+    datetime: Date,
     notes: String,
     players: [
         {

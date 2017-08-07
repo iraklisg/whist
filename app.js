@@ -36,13 +36,8 @@ configViews(app, nunjucks);
  ************************************************************/
 // Home page
 app.get('/', (req, res) => {
-    // Player.find().exec(function(err, players){
-    //     if (err) throw new Error(err);
-    //     res.render('index.nunj', {players: players});
-    // });
-    res.status(200).json({
-        message: 'Hello world!',
-        foo: 'bar'
+    Game.find({}).sort('-datetime').limit(10).exec((err, games) => {
+        res.render('base/landing_page', {games: games});
     });
 });
 

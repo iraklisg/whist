@@ -1,0 +1,10 @@
+{% extends 'base/index.nunj' %}
+
+
+{% block content %}
+    <div class="column">
+        {% for player in players %}
+            <div class="box">{{ player.first_name }} {{ player.last_name }}</div>
+        {% endfor %}
+    </div>
+{% endblock %}

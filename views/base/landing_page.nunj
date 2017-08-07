@@ -1,0 +1,12 @@
+{% extends 'base/index.nunj' %}
+
+
+{% block content %}
+    <div class="column">
+        {% for game in games %}
+            <a class="box">
+                <div>{{ game.datetime }} - {{ game.place }}</div>
+            </a>
+        {% endfor %}
+    </div>
+{% endblock %}

@@ -3,7 +3,7 @@
 module.exports = function (app, nunjucks) {
 
     // app.set('views', dir.views);
-    // app.set('view engine', 'nunj');
+    app.set('view engine', 'nunj');
     // app.set('view cache', app.get('env') === 'production');
     nunjucks.configure('views', {
         autoescape: true,
