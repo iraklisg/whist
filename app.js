@@ -11,6 +11,7 @@ const configViews = require('./config/views');
 
 const userRoutes = require('./routes/users');
 const playerRoutes = require('./routes/players');
+const gameRoutes = require('./routes/games');
 
 const Player = require('./models/Player');
 const Game = require('./models/Game');
@@ -50,6 +51,9 @@ app.use('/users', userRoutes);
 
 // Register player routes
 app.use('/players', playerRoutes);
+
+// Register game routes
+app.use('/games', gameRoutes);
 
 /************************************************************
  * Server listening on port

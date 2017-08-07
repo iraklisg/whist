@@ -1,52 +1,52 @@
 const _ = require('lodash');
 
-const {getAllPlayers, getPlayerByNickname, savePlayer, updatePlayer} = require('../services/players');
+const {getAllGames, getGameById, saveGame, updateGame} = require('../services/games');
 
 
-const playerController = {
+const gameController = {
 
     /**
-     * Get all players from database
+     * Get all games from database
      * @returns {Promise.<*>}
      */
-    async getPlayers() {
+    async getGames() {
         // there is no await statement on the return statement,
         // because the return value of an async function
         // is implicitly wrapped in Promise.resolve.
-        return getAllPlayers();
+        return getAllGames();
     },
 
     /**
-     * Get a player by nickname from database
-     * @param nickname
+     * Get a game by id from database
+     * @param id
      * @returns {Promise.<*>}
      */
-    async getPlayer(nickname) {
-        if (nickname === '') throw new Error('Nickname cannot be blank');
-        return getPlayerByNickname(nickname);
+    async getGame(id) {
+        if (id === '') throw new Error('Id cannot be blank');
+        return getGameById(id);
     },
 
     /**
-     * Save a new player to database
+     * Save a new game to database
      * @param data
      * @returns {Promise.<*>}
      */
-    async storePlayer(data) {
+    async storeGame(data) {
         // see https://stackoverflow.com/questions/679915/how-do-i-test-for-an-empty-javascript-object
         if (_.isEmpty(data)) throw new Error('No data provided');
-        return savePlayer(data);
+        return saveGame(data);
     },
 
     /**
-     * Update an existing player
+     * Update an existing game
      * @param id
      * @param data
      * @returns {Promise.<void>}
      */
-    async putPlayer(id, data) {
+    async putGame(id, data) {
         if (_.isEmpty(data)) throw new Error('No data provided');
-        return updatePlayer(id, data);
+        return updateGame(id, data);
     }
 };
 
-module.exports = playerController;
+module.exports = gameController;
