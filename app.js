@@ -5,12 +5,16 @@ const express = require('express');
 const mongoose = require('mongoose');
 const nunjucks = require('nunjucks');
 
-const userRoutes = require('./routes/users');
-const configServer = require('./config/server');
 const configDB = require('./config/database');
-const Player = require('./models/Player');
+const configServer = require('./config/server');
 const configViews = require('./config/views');
+
+const userRoutes = require('./routes/users');
+const playerRoutes = require('./routes/players');
+
+const Player = require('./models/Player');
 const Game = require('./models/Game');
+
 
 // Create a new express app
 const app = express();
@@ -42,7 +46,10 @@ app.get('/', (req, res) => {
 });
 
 // Register user routes
-app.use('/users', userRoutes); // console.log "Hello" when visiting example.com/foo/users/foobar
+app.use('/users', userRoutes);
+
+// Register player routes
+app.use('/players', playerRoutes);
 
 /************************************************************
  * Server listening on port

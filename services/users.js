@@ -7,6 +7,10 @@ const User = require('../models/User');
 
 const userService = {
 
+    /**
+     * Returns all users
+     * @returns {Promise}
+     */
     getAllUsers() {
         return User.find({}).exec();
     },
@@ -17,7 +21,8 @@ const userService = {
      * @returns {Promise}
      */
     getUserByUsername(username) {
-        return User.find({username}).exec();  // exec() on find returns a Promise instead of the default callback
+        // exec() on find returns a Promise instead of the default callback
+        return User.find({username}).exec();
     },
 
     /**
@@ -45,7 +50,7 @@ const userService = {
      * @returns {Promise}
      */
     updateUser(id, data) {
-        return User.findOneAndUpdate(id, {$set: data}, {new: true}).exec(); // ╯°□°）╯︵ ┻━┻
+        return User.findOneAndUpdate(id, {$set: data}, {new: true}).exec();  // ╯°□°）╯︵ ┻━┻
         // https://stackoverflow.com/questions/32811510/mongoose-findoneandupdate-doesnt-return-updated-document
     }
 

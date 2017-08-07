@@ -5,7 +5,8 @@
 
 const express = require('express');
 const bodyParser = require('body-parser');
-const {getUser, storeUser, getUsers, updateUser} = require('../controllers/users');
+
+const {getUsers, getUser, storeUser, putUser} = require('../controllers/users');
 
 // create application/json parser
 const jsonParser = bodyParser.json();
@@ -15,7 +16,7 @@ const urlencodedParser = bodyParser.urlencoded({extended: false});
 const router = express.Router();
 
 /**
- * Get all users.
+ * Get all users
  */
 router.get('/', async (req, res) => {
     try {
@@ -27,7 +28,7 @@ router.get('/', async (req, res) => {
 });
 
 /**
- * Show a user.
+ * Show a user by username
  */
 router.get('/:username', async (req, res) => {
     try {
@@ -39,7 +40,7 @@ router.get('/:username', async (req, res) => {
 });
 
 /**
- * Create a new user.
+ * Create a new user
  */
 router.post('/', jsonParser, async (req, res) => {
     try {
@@ -51,14 +52,14 @@ router.post('/', jsonParser, async (req, res) => {
 });
 
 /**
- * Update an existing user.
+ * Update an existing user
  */
 router.put('/:id', jsonParser, async (req, res) => {
     const id = req.params.id
         , data = req.body;
 
     try {
-        const updatedUser = await updateUser(id, data);
+        const updatedUser = await putUser(id, data);
         return res.status(200).json(updatedUser);
     } catch (err) {
         return res.status(500).json(err);
