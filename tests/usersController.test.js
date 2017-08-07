@@ -2,11 +2,21 @@ const chai = require('chai');
 
 const User = require('../models/User');
 const {updateUser} = require('../controllers/users');
-const {setupDatabase} = require('./test_helpers');
+const h = require('./testHelpers');
 
 const expect = chai.expect;
 
-setupDatabase('whist_testing', [User]);
+before(() => {
+    return h.connect('whist_testing')
+});
+
+beforeEach(() => {
+    return h.clear(User);
+});
+
+after(() => {
+    return h.disconnectAll();
+});
 
 describe('USER controller', () => {
 

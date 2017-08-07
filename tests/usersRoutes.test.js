@@ -4,16 +4,26 @@
 const request = require('supertest');
 const chai = require('chai');
 
-const {setupDatabase} = require('./test_helpers');
 const User = require('../models/User');
 const {app} = require('../app');
+const h = require('./testHelpers');
 
 const expect = chai.expect;
 chai.should();
 chai.use(require('chai-things'));
 chai.use(require('chai-subset'));
 
-setupDatabase('whist_testing', [User]);
+before(() => {
+    return h.connect('whist_testing')
+});
+
+beforeEach(() => {
+    return h.clear(User); // Alternately, instead of using the done() callback, you may return a Promise https://mochajs.org/#working-with-promises
+});
+
+after(() => {
+    return h.disconnectAll();
+});
 
 describe('USER endpoints', () => {
 
