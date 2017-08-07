@@ -26,7 +26,7 @@ const seedPlayers = (players) => {
 /**
  * Create new games in database
  * @param data
- * @returns {Promise.<Promise|Promise<T>|any|Array|{index: number, input: string}>}
+ * @returns {Promise}
  */
 const seedGames = async (data) => {
     try {
