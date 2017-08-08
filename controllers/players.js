@@ -1,6 +1,6 @@
 const _ = require('lodash');
 
-const {getAllPlayers, getPlayerByNickname, savePlayer, updatePlayer} = require('../services/players');
+const {getAllPlayers, getPlayerByNickname, savePlayer, updatePlayer, getHighestScore} = require('../services/players');
 
 
 const playerController = {
@@ -23,7 +23,7 @@ const playerController = {
      */
     async getPlayer(nickname) {
         if (nickname === '') throw new Error('Nickname cannot be blank');
-        return getPlayerByNickname(nickname);
+        return getPlayerByNickname(nickname).then(player => getHighestScore(player));
     },
 
     /**
