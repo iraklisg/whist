@@ -22,7 +22,7 @@ const gameService = {
      */
     getGameById(id) {
         // exec() on find returns a Promise instead of the default callback
-        return Game.find({id}).exec();
+        return Game.findOne({_id: id}).exec(); // possible bug on findById https://github.com/Automattic/mongoose/issues/4867
     },
 
     /**
@@ -40,9 +40,31 @@ const gameService = {
      * @param data
      * @returns {Promise}
      */
-    updatePlayer(id, data) {
-        return Game.findOneAndUpdate(id, {$set: data}, {new: true}).exec();  // ╯°□°）╯︵ ┻━┻
-        // https://stackoverflow.com/questions/32811510/mongoose-findoneandupdate-doesnt-return-updated-document
+    updateGame(id, data) {
+        return Game.findOneAndUpdate(id, {$set: data}, {new: true}).exec();
+    },
+
+    /**
+     * Get the final ranking for a game.
+     * @param {String} id - The game id
+     * @returns {Promise<Array>} // Because is an async function ;-)
+     */
+    async getRanking(id) {
+        try {
+            const game = await Game.findOne({_id: id})
+                .populate('players.player')
+                .exec(); // returns a promise, so I await
+
+            return game.players.map(info => {
+                return {
+                    player: info.player.nickname,
+                    final: Number(info.points.slice(-1)),
+                }
+            });
+        } catch (err) {
+            throw new Error(err);
+        }
+
     }
 };
 
