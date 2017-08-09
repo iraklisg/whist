@@ -5,14 +5,20 @@
 
 const Game = require('../models/Game');
 
+
 const gameService = {
 
     /**
      * Returns all games
      * @returns {Promise}
      */
-    getAllGames() {
-        return Game.find().exec();
+    async getAllGames() {
+        let g = await Game.find().limit(1).exec();
+        g = new Game(g[0]);
+        console.log(await g.winners);
+        // console.log(g.toObject({virtuals: true}));
+        return g;
+        // return Game.find().limit(1).exec();
     },
 
     /**
@@ -45,15 +51,15 @@ const gameService = {
     },
 
     /**
-     * Get the final ranking for a game.
-     * @param {String} id - The game id
-     * @returns {Promise<Array>} // Because is an async function ;-)
+     * Get the last score of each player for a game.
+     * @param {String} gameId - The game id
+     * @returns {Promise<Array>} // Because it's an async function ;-)
      */
-    async getRanking(id) {
+    async getLastScore(gameId) {
         try {
-            const game = await Game.findOne({_id: id})
+            const game = await Game.findOne({_id: gameId})
                 .populate('players.player')
-                .exec(); // returns a promise, so I await
+                .exec();  // returns a promise, so I await
 
             return game.players.map(info => {
                 return {
@@ -64,7 +70,28 @@ const gameService = {
         } catch (err) {
             throw new Error(err);
         }
+    },
 
+    /**
+     * Get the winner(s) of a game.
+     * @param {String} gameId - The game id
+     * @returns {Promise<Array>} // Because it's an async function ;-)
+     */
+    async getWinners(gameId) {
+        try {
+            let scores = await module.exports.getLastScore(gameId);
+            let winners = [scores[0]];
+            for (let i=1; i < scores.length; i++) {
+                if (scores[i].final === winners[0].final) {
+                    winners.push(scores[i]);
+                } else if (scores[i].final > winners[0].final) {
+                    winners = [scores[i]];
+                }
+            }
+            return winners;
+        } catch (err) {
+            throw new Error(err);
+        }
     }
 };
 

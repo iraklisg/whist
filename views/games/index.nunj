@@ -1,0 +1,11 @@
+{% extends 'base/index.nunj' %}
+
+
+{% block content %}
+    <div class="column">
+        GAMES:
+        {#{% for game in games %}#}
+            <div class="box">{{ games.datetime.toLocaleDateString() }} {{ games.winner }}</div>
+        {#{% endfor %}#}
+    </div>
+{% endblock %}

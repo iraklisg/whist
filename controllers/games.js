@@ -1,6 +1,6 @@
 const _ = require('lodash');
 
-const {getAllGames, getGameById, saveGame, updateGame} = require('../services/games');
+const {getAllGames, getGameById, saveGame, updateGame, getWinners} = require('../services/games');
 
 
 const gameController = {
@@ -13,6 +13,16 @@ const gameController = {
         // there is no await statement on the return statement,
         // because the return value of an async function
         // is implicitly wrapped in Promise.resolve.
+        // let allGames = getAllGames().then(games => {
+        //     games.map(game => {
+        //         // getWinners(game.id).then(m => {console.log(m)});
+        //         getWinners(game.id).then(res => {game.winners = res;});
+        //         // console.log(game.winners);
+        //         return game;
+        //     });
+        //     return games
+        // });
+        // return allGames;
         return getAllGames();
     },
 
