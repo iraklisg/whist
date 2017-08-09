@@ -48,14 +48,6 @@ const playerService = {
     },
 
     /**
-     * Get all games played by the player
-     * @param player
-     */
-    getGames(player) {
-        // TODO
-    },
-
-    /**
      * Find the highest final score achieved by the player
      */
     async getHighestScore(player) {

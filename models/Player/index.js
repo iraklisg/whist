@@ -19,6 +19,7 @@ const playerSchema = mongoose.Schema({
     first_name: plainStringType,
     last_name: plainStringType,
     nickname: nicknameType,
+    games: [{type: mongoose.Schema.Types.ObjectId, ref: 'Game', required: false}],
 });
 
 const Player = mongoose.model('Player', playerSchema);

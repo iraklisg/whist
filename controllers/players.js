@@ -23,7 +23,7 @@ const playerController = {
      */
     async getPlayer(nickname) {
         if (nickname === '') throw new Error('Nickname cannot be blank');
-        return getPlayerByNickname(nickname).then(player => getHighestScore(player));
+        return getPlayerByNickname(nickname);
     },
 
     /**
