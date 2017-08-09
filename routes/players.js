@@ -21,14 +21,14 @@ const router = express.Router();
 router.get('/', async (req, res) => {
     try {
         const players = await getPlayers();
-        return res.render('players/index', {players: players});
+        return res.status(200).json(players);
     } catch (err) {
         return res.status(500).json({error: err.message});
     }
 });
 
 /**
-  * Get a player by nickname
+ * Get a player by nickname
  */
 router.get('/:nickname', async (req, res) => {
     try {
@@ -56,7 +56,7 @@ router.post('/', jsonParser, async (req, res) => {
  */
 router.put('/:id', jsonParser, async (res, req) => {
     const id = req.params.id,
-          data = req.body;
+        data = req.body;
 
     try {
         const updatedPlayer = await putPlayer(id, data);
