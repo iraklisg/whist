@@ -14,8 +14,10 @@ const gameService = {
      */
     async getAllGames() {
         let g = await Game.find().limit(1).exec();
-        g = new Game(g[0]);
-        console.log(await g.winners);
+        // g = new Game(g[0]);
+        // g.winners().then(winners => {g.getWinners = winners;console.log(g.getWinners);});
+        // console.log(g.getWinners);
+        // console.log(g.winners().then(ff => {console.log(ff)}));
         // console.log(g.toObject({virtuals: true}));
         return g;
         // return Game.find().limit(1).exec();
