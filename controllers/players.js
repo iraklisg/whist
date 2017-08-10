@@ -1,5 +1,5 @@
 const {makePlayersService} = require('../services/players'); // this is a factory
-const {makePlayersRepository} = require('../repositories/playersRepository'); // this is a factory
+const {makePlayersRepository} = require('../repositories/players'); // this is a factory
 const _ = require('lodash');
 
 // Instantiate a service object; players repository is passed as a dependency

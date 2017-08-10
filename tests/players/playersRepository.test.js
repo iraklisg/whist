@@ -2,7 +2,7 @@ const chai = require('chai');
 const ObjectId = require('mongoose').Types.ObjectId;
 
 const h = require('../testHelpers');
-const {makePlayersRepository} = require('../../repositories/playersRepository'); // this is a factory
+const {makePlayersRepository} = require('../../repositories/players/index'); // this is a factory
 const Player = require('../../models/Player');
 
 chai.use(require('chai-subset'));
