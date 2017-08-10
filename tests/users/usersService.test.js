@@ -1,8 +1,8 @@
 const chai = require('chai');
 
-const User = require('../models/User');
-const {updateUser} = require('../services/users');
-const h = require('./testHelpers');
+const User = require('../../models/User/index');
+const {updateUser} = require('../../services/users');
+const h = require('../testHelpers');
 
 const expect = chai.expect;
 

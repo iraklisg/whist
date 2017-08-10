@@ -54,12 +54,9 @@ router.post('/', jsonParser, async (req, res) => {
 /**
  * Update a player
  */
-router.put('/:id', jsonParser, async (res, req) => {
-    const id = req.params.id,
-        data = req.body;
-
+router.put('/:id', jsonParser, async (req, res) => {
     try {
-        const updatedPlayer = await putPlayer(id, data);
+        const updatedPlayer = await putPlayer(req.params.id, req.body);
         return res.status(200).json(updatedPlayer);
     } catch (err) {
         return res.status(500).json({error: err.message});

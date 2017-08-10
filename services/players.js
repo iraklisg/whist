@@ -7,6 +7,11 @@ const Player = require('../models/Player');
 const Game = require('../models/Game');
 const gamesService = require('../services/games');
 
+const {makePlayersRepository} = require('../repositories/playersRepository'); // this is a factory
+
+const playersRepository = makePlayersRepository();
+
+
 const playerService = {
 
     /**
@@ -14,7 +19,7 @@ const playerService = {
      * @returns {Promise}
      */
     getAllPlayers() {
-        return Player.find().exec();
+        return playersRepository.getAll();
     },
 
     /**
@@ -24,27 +29,26 @@ const playerService = {
      */
     getPlayerByNickname(nickname) {
         // exec() on find returns a Promise instead of the default callback
-        return Player.find({nickname}).exec();
+        return playersRepository.getByNickname(nickname);
     },
 
     /**
      * Saves a new player to database
      * @param {Object} data
-     * @returns {Promise} - Either fulfilled with new player or rejected with error
+     * @returns {Promise}
      */
-    savePlayer(data) {
-        return Player({nickname: data.nickname}).save();
+    createPlayer(data) {
+        return playersRepository.create(data);
     },
 
-    /**
+    /**P
      * Update an existing player
      * @param id
      * @param data
      * @returns {Promise}
      */
     updatePlayer(id, data) {
-        return Player.findOneAndUpdate(id, {$set: data}, {new: true}).exec();  // ╯°□°）╯︵ ┻━┻
-        // https://stackoverflow.com/questions/32811510/mongoose-findoneandupdate-doesnt-return-updated-document
+        return playersRepository.update(id, data)
     },
 
     /**

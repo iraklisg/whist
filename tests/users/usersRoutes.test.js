@@ -4,9 +4,9 @@
 const request = require('supertest');
 const chai = require('chai');
 
-const User = require('../models/User');
-const {app} = require('../app');
-const h = require('./testHelpers');
+const User = require('../../models/User/index');
+const {app} = require('../../app');
+const h = require('../testHelpers');
 
 const expect = chai.expect;
 chai.should();

@@ -1,6 +1,6 @@
 const _ = require('lodash');
 
-const {getAllPlayers, getPlayerByNickname, savePlayer, updatePlayer, getHighestScore} = require('../services/players');
+const {getAllPlayers, getPlayerByNickname, createPlayer, updatePlayer, getHighestScore} = require('../services/players');
 
 
 const playerController = {
@@ -34,7 +34,7 @@ const playerController = {
     async storePlayer(data) {
         // see https://stackoverflow.com/questions/679915/how-do-i-test-for-an-empty-javascript-object
         if (_.isEmpty(data)) throw new Error('No data provided');
-        return savePlayer(data);
+        return createPlayer(data);
     },
 
     /**
