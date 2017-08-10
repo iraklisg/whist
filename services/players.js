@@ -1,93 +1,119 @@
 /**
  * Player service module.
+ * The service have access to data via various repositories
+ * and make some work for the controllers
+ * @depends playersRepository
  * @module /services/player
  */
+const assert = require('assert');
 
-const Player = require('../models/Player');
+
 const Game = require('../models/Game');
 const gamesService = require('../services/games');
 
-const {makePlayersRepository} = require('../repositories/playersRepository'); // this is a factory
+// const {makePlayersRepository} = require('../repositories/playersRepository'); // this is a factory
 
-const playersRepository = makePlayersRepository();
+// const playersRepository = makePlayersRepository();
 
 
-const playerService = {
+const makePlayersService = (playersRepository) => {
+    assert(playersRepository, 'playersRepository is required.'); // Its a dependency
 
-    /**
-     * Returns all players
-     * @returns {Promise}
-     */
-    getAllPlayers() {
-        return playersRepository.getAll();
-    },
+    return Object.assign(Object.create({
+        /*
+        These are added to factory's prototype
+        */
 
-    /**
-     * Finds a player by nickname
-     * @param {String} nickname
-     * @returns {Promise}
-     */
-    getPlayerByNickname(nickname) {
-        // exec() on find returns a Promise instead of the default callback
-        return playersRepository.getByNickname(nickname);
-    },
+        /**
+         * Returns all players
+         * @returns {Promise}
+         */
+        async getAll() {
+            return playersRepository.getAll();
+        },
 
-    /**
-     * Saves a new player to database
-     * @param {Object} data
-     * @returns {Promise}
-     */
-    createPlayer(data) {
-        return playersRepository.create(data);
-    },
+        /**
+         * Returns all players
+         * @param {String} id - The player's ObjectId string representation
+         * @returns {Promise}
+         */
+        async get(id) {
+            return playersRepository.get(id);
+        },
 
-    /**P
-     * Update an existing player
-     * @param id
-     * @param data
-     * @returns {Promise}
-     */
-    updatePlayer(id, data) {
-        return playersRepository.update(id, data)
-    },
+        /**
+         * Saves a new player to database
+         * @param {Object} data
+         * @returns {Promise}
+         */
+        async create(data) {
+            return playersRepository.create(data);
+        },
 
-    /**
-     * Find the highest final score achieved by the player
-     */
-    async getHighestScore(player) {
-        // TODO get only the games for this player
-        const games = await Game.find({})
-            .populate('players.player')
-            .exec();
+        /**P
+         * Update an existing player
+         * @param id
+         * @param data
+         * @returns {Promise}
+         */
+        async update(id, data) {
+            return playersRepository.update(id, data)
+        },
 
-        return await Promise.all(games.map(async (game) => {
-            return await gamesService.getRanking(game.id); // SOS https://stackoverflow.com/questions/36992590/asynchronous-map-function-that-awaits-returns-promise-instead-of-value
-        }));
-    },
+    }), {
+        /*
+        These are added directly to factory instances
+        */
 
-    /**
-     * Find the highest score that a user has achieved so far
-     * @param person
-     */
-    async highestScores(person) {
-        try {
-            const games = await Game.find({}).populate('players.player').exec();
+        /**
+         * Finds a player by nickname
+         * @param {String} nickname
+         * @returns {Promise}
+         */
+        async getByNickname(nickname) {
+            // exec() on find returns a Promise instead of the default callback
+            return playersRepository.getByNickname(nickname);
+        },
 
-            return games.reduce((acc, game) => {
-                acc.push(game.players
-                    .filter(player => player.player.id === person[0].id)
-                    .reduce((acc, player) => {
-                        acc = player.points;
-                        return acc;
-                    }, '')
-                );
-                return acc;
-            }, []);
+        /**
+         * Find the highest final score achieved by the player
+         */
+        async getHighestScore(player) {
+            // TODO get only the games for this player
+            const games = await Game.find({})
+                .populate('players.player')
+                .exec();
 
-        } catch (err) {
-            throw new Error(err);
+            return await Promise.all(games.map(async (game) => {
+                return await gamesService.getRanking(game.id); // SOS https://stackoverflow.com/questions/36992590/asynchronous-map-function-that-awaits-returns-promise-instead-of-value
+            }));
+        },
+
+        /**
+         * Find the highest score that a user has achieved so far
+         * @param person
+         */
+        async highestScores(person) {
+            try {
+                const games = await Game.find({}).populate('players.player').exec();
+
+                return games.reduce((acc, game) => {
+                    acc.push(game.players
+                        .filter(player => player.player.id === person[0].id)
+                        .reduce((acc, player) => {
+                            acc = player.points;
+                            return acc;
+                        }, '')
+                    );
+                    return acc;
+                }, []);
+
+            } catch (err) {
+                throw new Error(err);
+            }
         }
-    }
+
+    });
 };
 
-module.exports = playerService;
+module.exports.makePlayersService = makePlayersService;
