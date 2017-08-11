@@ -1,7 +1,10 @@
 const chai = require('chai');
 const h = require('../testHelpers');
 
+const Player = require('../../models/Player')
+
 chai.use(require('chai-subset'));
+chai.use(require('chai-things'));
 const expect = chai.expect;
 
 const Game = require('../../models/Game');
@@ -42,10 +45,37 @@ describe('PLAYERS service', () => {
     describe('#getScores', () => {
         it('return an array all player rankings', async () => {
             const ira = await repository.getByNickname('ira');
-            const games = await Game.find({}).populate('players.player').exec();
+            const games = await Game.find({}).populate('players.player').exec(); // should take this from a repo
 
-            const rankings = await service.getScores(ira, games);
-            console.log(rankings)
+            const scores = await service.getScores(ira, games);
+
+            expect(scores).to.have.lengthOf(games.length);
+            expect(scores).to.all.have.property('place');
+            expect(scores).to.all.have.property('date');
+            expect(scores).to.all.have.property('score');
         });
     });
+
+    describe('#getScore', () => {
+        it('return the final score of player fot this game', async () => {
+            const ira = await repository.getByNickname('ira');
+            const games = await Game.findOne().exec(); // should take this from a repo
+
+            const score = await service.getScore(ira, games);
+
+            expect(score).to.be.a('number');
+        });
+    });
+    describe('#getHighestScore', () => {
+        it('return an array all player rankings', async () => {
+            const ira = await repository.getByNickname('john');
+            const games = await Game.find({}).populate('players.player').exec(); // should take this from a repo
+
+            const highScore = await service.getHighestScore(ira, games);
+
+            expect(highScore).to.be.a('number');
+        });
+    });
+
+
 });

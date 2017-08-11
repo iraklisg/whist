@@ -4,6 +4,7 @@
  */
 
 const mongoose = require('mongoose');
+const Game = require('../Game');
 
 const {validateNickname} = require('./validate');
 

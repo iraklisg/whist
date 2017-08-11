@@ -3,8 +3,8 @@ const crudActions = require('../crud')('Player');
 
 /**
  * The players repository factory.
- * "repository" is a fancy term to descibe an object
- * that is used to retrieve data from a datasource - the actual
+ * "repository" is a fancy term to describe an object
+ * that is used to retrieve data from a data source - the actual
  * data source does not matter. Could be a database, a REST API,
  * or some IoT things like sensors or whatever.
  */
@@ -23,7 +23,7 @@ const makePlayersRepository = () => {
             /**
              * Get a player by nickname
              * @param nickname - The player's nickname
-             * @returns {Promise.<obj>}
+             * @returns {Promise.<Mongoose.<Player>>}
              */
             async getByNickname(nickname) {
                 const player = await Player.findOne({nickname}).exec();

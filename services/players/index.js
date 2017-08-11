@@ -6,6 +6,7 @@
  * @module /services/player
  */
 const assert = require('assert');
+const _ = require('lodash');
 const crudServices = require('../crud')('Player'); // the basic crud services for the Player model
 
 // These are imported for extra services.....
@@ -15,24 +16,6 @@ const gamesService = require('../games');
 
 const makePlayersService = (playersRepository) => {
     assert(playersRepository, 'playersRepository is required.'); // Its a dependency
-
-    /**
-     * TODO move it to games service
-     * Return the final score of a player for a given game
-     * @param id - The game id
-     * @param playerNickname
-     * @returns {Promise.<*>}
-     */
-    const getPlayerScore = async (id, playerNickname) => {
-        const game = await Game.findById(id).populate('players.player').exec();
-        return game.players
-            .filter(player => player.player.nickname === playerNickname)
-            .reduce((acc, player) => {
-                acc = player.points.slice(-1)[0];
-                return acc;
-            }, '')
-    };
-
 
     return Object.assign(
         // This is the object's prototype
@@ -49,38 +32,53 @@ const makePlayersService = (playersRepository) => {
             },
 
             /**
-             * Find the highest score that a user has achieved so far
-             * @param person
-             * @param games
+             * Get all scores per game for a given player
+             * @param player {Mongoose.<Player>} - the person model
+             * @param games {Mongoose.<Collection>} - An array of Game models *populated with players* TODO: get this from games repository
+             * @returns {Promise.<Array>} scores - An array of scores
              */
-            async getScores(person, games) {
+            async getScores(player, games) {
                 try {
                     let scores = [];
                     for (let game of games) {
                         let place = game.place;
                         let date = game.datetime;
-                        let score = await getPlayerScore(game.id, person.nickname);
+                        let score = await this.getScore(player, game);
                         scores.push({place, date, score});
                     }
                     return scores;
                 } catch (err) {
                     throw new Error(err);
                 }
-            }
+            },
 
-            // /**
-            //  * Find the highest final score achieved by the player
-            //  */
-            // async getHighestScore(player) {
-            //     // TODO get only the games for this player
-            //     const games = await Game.find({})
-            //         .populate('players.player')
-            //         .exec();
-            //
-            //     return await Promise.all(games.map(async (game) => {
-            //         return await gamesService.getRanking(game.id); // SOS https://stackoverflow.com/questions/36992590/asynchronous-map-function-that-awaits-returns-promise-instead-of-value
-            //     }));
-            // },
+            /**
+             * Return the final score of a player for a given game
+             * @param {Mongoose.<Player>} player - The player model
+             * @param {Mongoose.<Game>} game - The game model TODO: get this from games repository
+             * @returns {Promise.<Number>} - The player's final score for this game
+             */
+            async getScore(player, game) {
+                const populatedGame = await game.populate('players.player').execPopulate();
+                return populatedGame.players
+                    .filter(playerInfo => playerInfo.player.nickname === player.nickname)
+                    .reduce((acc, playerInfo) => {
+                        acc = playerInfo.points.slice(-1)[0];
+                        return acc;
+                    }, 0)
+            },
+
+            /**
+             * Find a player's victory with the highest score
+             * @player {Mongoose.<Player>} - The player
+             * @games {Mongoose.Collection} - The collection of all games
+             * @returns {Number} - The highest victory
+             */
+            async getHighestScore(player, games) {
+                const scoresTable = await this.getScores(player, games);
+                let scores = scoresTable.map(score => score.score);
+                return _.max(scores)
+            },
         });
 };
 
