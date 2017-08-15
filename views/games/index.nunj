@@ -4,9 +4,29 @@
 {% block content %}
     <div class="columns">
         <div class="column">
-            <h1>Όλα τα παιχνίδια</h1>
-            {% for game in games %}
-                <div class="box">{{ game.game.datetime.toLocaleDateString() }} {{ game.game.place }} - {{ game.winners }}</div>
+
+            <h1 class="title">Όλα τα παιχνίδια</h1>
+            <h2 class="subtitle">Περιηγηθείτε σε όλα τα παιχνίδια</h2>
+
+            {% for game in games %}{{ index0 }}
+                {% if loop.index0 % 2 == 0 %}
+                    <div class="tile is-ancestor">
+                {% endif %}
+                <div class="tile is-parent">
+                    <article class="tile is-child box">
+                        {% for winner in game.winners %}
+                            <p class="title box">
+                                {{ winner.player.first_name }} {{ winner.player.last_name }} - {{ winner.final }}
+                                <span class="subtitle">Σειρά: {{ winner.order }}</span>
+                            </p>
+                        {% endfor %}
+                        <p class="subtitle">{{ game.game.datetime.toLocaleString() }}</p>
+                        {% if game.game.notes %}<p class="subtitle">{{ game.game.notes }}</p>{% endif %}
+                    </article>
+                </div>
+                {% if loop.index0 % 2 != 0 %}
+                    </div>
+                {% endif %}
             {% endfor %}
         </div>
     </div>

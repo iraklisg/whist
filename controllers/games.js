@@ -19,7 +19,7 @@ const gameController = {
         let games = await gamesService.getAllGames();
         let enhancedGames = [];
         for (let game of games) {
-            let winners = await gamesService.getWinners(game.id);
+            let winners = await gamesService.getWinnersAndScores(game.id);
             enhancedGames.push({game: game, winners: winners});
         }
         return enhancedGames;

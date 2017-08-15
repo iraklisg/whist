@@ -49,17 +49,23 @@ const makeGamesService = (gamesRepository) => {
             },
 
             /**
-             * Finds the last score of each player (the score each player had when the game was finished), given the game id
+             * Gets the scores (an array) of each player, given the game id
+             * [
+             *   {player: <Player Model>, points: Array, order: Number},
+             *   {player: <Player Model>, points: Array, order: Number},
+             *   {player: <Player Model>, points: Array, order: Number}
+             * ]
              * @param {String} gameId
              * @returns {Promise}
              */
-            async getFinalScore(gameId) {
+            async getScoresWithPlayers(gameId) {
                 try {
-                    const gameWithPlayers = await Game.findOne({_id: gameId}).populate('players.player');
+                    const gameWithPlayers = await gamesRepository.getGameWithPlayers(gameId);
                     return gameWithPlayers.players.map(info => {
                         return {
-                            player: info.player.nickname,
-                            final: Number(info.points.slice(-1)),
+                            player: info.player,
+                            points: info.points,
+                            order: info.order,
                         }
                     });
                 } catch (err) {
@@ -68,15 +74,43 @@ const makeGamesService = (gamesRepository) => {
             },
 
             /**
-             * Finds the winner(s) for a given game.
-             * Returns an array of either one object (one winner) or two etc
-             * [ { player: 'nick', final: 40 } ]
+             * Finds the last score of each player (the score each player had when the game was finished), given the game id
+             * [
+             *   {player: <Player Model>, final: Number, order: Number},
+             *   {player: <Player Model>, final: Number, order: Number},
+             *   {player: <Player Model>, final: Number, order: Number}
+             * ]
              * @param {String} gameId
              * @returns {Promise}
              */
-            async getWinners(gameId) {
+            async getFinalScores(gameId) {
                 try {
-                    let scores = await this.getFinalScore(gameId);
+                    const playersScores = await this.getScoresWithPlayers(gameId);
+                    return playersScores.map(info => {
+                        return {
+                            player: info.player,
+                            final: Number(info.points.slice(-1)),
+                            order: info.order
+                        }
+                    });
+                } catch (err) {
+                    throw new Error(err);
+                }
+            },
+
+            /**
+             * Finds the winner(s) along with the/their final score, for a given game.
+             * Returns an array of either one object (one winner) or two etc
+             * [
+             *   {player: <Player Model>, final: Number},
+             *   {player: <Player Model>, final: Number},
+             * ]
+             * @param {String} gameId
+             * @returns {Promise}
+             */
+            async getWinnersAndScores(gameId) {
+                try {
+                    let scores = await this.getFinalScores(gameId);
                     let winners = [scores[0]];
                     for (let i=1; i < scores.length; i++) {
                         if (scores[i].final === winners[0].final) {
@@ -89,7 +123,7 @@ const makeGamesService = (gamesRepository) => {
                 } catch (err) {
                     throw new Error(err);
                 }
-            }
+            },
 
         });
 };
