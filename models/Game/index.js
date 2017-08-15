@@ -52,20 +52,6 @@ const getWinners = async gameObj => {
     }
 };
 
-
-/**
-  From mongoose official docs:
-  "Do not declare methods using ES6 arrow functions (=>). Arrow functions explicitly prevent binding "this",
-  so your method will not have access to the document and the above examples will not work."
- */
-// Custom methods
-gameSchema.methods.winners = function() {
-    // "this" is the game object model where this method
-    // was called on, i.e g.winners()  <-- "this" is the g
-    return getWinners(this)
-};
-
-
 // Model definition
 const Game = mongoose.model('Game', gameSchema);
 

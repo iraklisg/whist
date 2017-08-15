@@ -1,7 +1,13 @@
 const _ = require('lodash');
 
-const {getAllGames, getGameById, saveGame, updateGame, getWinners} = require('../services/games');
+const {makeGamesService} = require('../services/games');  // this is a factory
+const {makeGamesRepository} = require('../repositories/games');  // this is a factory
 
+// Instantiate a service object; games repository is passed as a dependency
+// See the following for implementing an IOC for dependency injection
+// https://medium.com/@Jeffijoe/dependency-injection-in-node-js-2016-edition-part-3-c01471c09c6d
+// https://medium.com/@slavahatnuke/manage-your-services-node-js-dependency-injection-4412f4f62f84
+const gamesService = makeGamesService(makeGamesRepository());
 
 const gameController = {
 
@@ -10,20 +16,7 @@ const gameController = {
      * @returns {Promise.<*>}
      */
     async getGames() {
-        // there is no await statement on the return statement,
-        // because the return value of an async function
-        // is implicitly wrapped in Promise.resolve.
-        // let allGames = getAllGames().then(games => {
-        //     games.map(game => {
-        //         // getWinners(game.id).then(m => {console.log(m)});
-        //         getWinners(game.id).then(res => {game.winners = res;});
-        //         // console.log(game.winners);
-        //         return game;
-        //     });
-        //     return games
-        // });
-        // return allGames;
-        return getAllGames();
+        return gamesService.getAllGames();
     },
 
     /**
@@ -33,7 +26,7 @@ const gameController = {
      */
     async getGame(id) {
         if (id === '') throw new Error('Id cannot be blank');
-        return getGameById(id);
+        return gamesService.getGameById(id);
     },
 
     /**
@@ -44,7 +37,7 @@ const gameController = {
     async storeGame(data) {
         // see https://stackoverflow.com/questions/679915/how-do-i-test-for-an-empty-javascript-object
         if (_.isEmpty(data)) throw new Error('No data provided');
-        return saveGame(data);
+        return gamesService.saveGame(data);
     },
 
     /**
@@ -55,7 +48,7 @@ const gameController = {
      */
     async putGame(id, data) {
         if (_.isEmpty(data)) throw new Error('No data provided');
-        return updateGame(id, data);
+        return gamesService.updateGame(id, data);
     }
 };
 

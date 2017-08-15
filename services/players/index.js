@@ -11,7 +11,7 @@ const crudServices = require('../crud')('Player'); // the basic crud services fo
 
 // These are imported for extra services.....
 const Game = require('../../models/Game/index');
-const gamesService = require('../games');
+const gamesService = require('../../services/games');
 
 
 const makePlayersService = (playersRepository) => {
