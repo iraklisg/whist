@@ -25,7 +25,10 @@ const playerController = {
      */
     async getPlayer(nickname) {
         if (nickname === '') throw new Error('Nickname cannot be blank');
-        return playersService.getByNickname(nickname);
+        const player = await playersService.getByNickname(nickname);
+        const scores = await playersService.getScoress(player);
+
+        return {player, scores}
     },
 
     /**

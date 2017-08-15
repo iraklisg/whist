@@ -32,6 +32,27 @@ const makePlayersService = (playersRepository) => {
             },
 
             /**
+             *
+             * @param {Mongoose.<Player>} player
+             * @returns {Promise.<void>}
+             */
+            async getScoress(player) {
+                // If I apply populate() directly on player argument both p and player are populated
+                // Because player argument is passed by reference, the player variable in the controller be also populated !!!
+                // const p = await player.populate('games').execPopulate();
+                // return p; // p is populates; players argument is populated too!
+
+                // console.log(player);
+                const p = await playersRepository.getByNickname(player.nickname);
+                // console.log(p);
+                const pp = await p.populate('games').execPopulate();
+                console.log(pp);
+
+                // TODO work with pp.games to find the player's scores
+                return pp; // pp is populated; players argument is not populated
+            },
+
+            /**
              * Get all scores per game for a given player
              * @param player {Mongoose.<Player>} - the person model
              * @param games {Mongoose.<Collection>} - An array of Game models *populated with players* TODO: get this from games repository
