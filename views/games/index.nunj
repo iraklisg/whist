@@ -2,10 +2,12 @@
 
 
 {% block content %}
-    <div class="column">
-        GAMES:
-        {% for game in games %}
-            <div class="box">{{ game.datetime.toLocaleDateString() }} {{ game.place }}</div>
-        {% endfor %}
+    <div class="columns">
+        <div class="column">
+            <h1>Όλα τα παιχνίδια</h1>
+            {% for game in games %}
+                <div class="box">{{ game.game.datetime.toLocaleDateString() }} {{ game.game.place }} - {{ game.winners }}</div>
+            {% endfor %}
+        </div>
     </div>
 {% endblock %}

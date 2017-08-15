@@ -29,13 +29,22 @@ const makeGamesRepository = () => {
             },
 
             /**
-             * Get a game by id
-             * @param id - The game's id
+             * Get all games with players (referenced value) populated
              * @returns {Promise.<Mongoose.<Game>>}
              */
-            async getById(id) {
-                return await Game.findOne({_id: id}).exec();
-            }
+            async getAllGamesWithPlayers() {
+                return await Game.find({}).populate('players.player').exec();
+            },
+
+            /**
+             * Get a game by id
+             * @param gameId - The game's id
+             * @returns {Promise.<Mongoose.<Game>>}
+             */
+            async getGameById(gameId) {
+                return await Game.findOne({_id: gameId}).exec();
+            },
+
         });
 };
 

@@ -16,7 +16,20 @@ const gameController = {
      * @returns {Promise.<*>}
      */
     async getGames() {
-        return gamesService.getAllGames();
+        let games = await gamesService.getAllGames();
+        let enhancedGames = [];
+        for (let game of games) {
+            let winners = await gamesService.getWinners(game.id);
+            enhancedGames.push({game: game, winners: winners});
+        }
+        return enhancedGames;
+        // return games.map(async game => {
+        //     let winners = await gamesService.getWinners(game.id);
+        //     return {
+        //         game: game,
+        //         winners: winners
+        //     };
+        // });
     },
 
     /**
