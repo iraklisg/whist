@@ -118,37 +118,34 @@ describe('PLAYERS service', () => {
     after(() => h.disconnectAll());
 
     describe('#getScores', () => {
-        it('return an array all player rankings', async () => {
-            const ira = await repository.getByNickname('SpongeBob');
-            const games = await Game.find({}).populate('players.player').exec(); // should take this from a repo
+        it('should return the given player final scores', async () => {
+            const bob = {nickname: 'SpongeBob'}; // mock the player
+            const scores = await service.getScores(bob);
 
-            const scores = await service.getScores(ira, games);
-
-            expect(scores).to.have.lengthOf(games.length);
-            expect(scores).to.all.have.property('place');
-            expect(scores).to.all.have.property('date');
-            expect(scores).to.all.have.property('score');
+            // TODO: work a little bit more on dates
+            expect(scores).to.containSubset([
+                {place: 'Milos', score: 36},
+                {place: 'Gyzi', score: 32},
+                {place: 'Peristeri', score: 52}
+            ])
         });
     });
 
     describe('#getScore', () => {
         it('return the final score of player fot this game', async () => {
-            const ira = await repository.getByNickname('SpongeBob');
+            const bob = await repository.getByNickname('SpongeBob');
             const games = await Game.findOne().exec(); // should take this from a repo
-
-            const score = await service.getScore(ira, games);
+            const score = await service.getScore(bob, games);
 
             expect(score).to.be.a('number');
         });
     });
     describe('#getHighestScore', () => {
         it('return an array all player rankings', async () => {
-            const ira = await repository.getByNickname('SpongeBob');
-            const games = await Game.find({}).populate('players.player').exec(); // should take this from a repo
+            const bob = await repository.getByNickname('SpongeBob');
+            const highScore = await service.getHighestScore(bob);
 
-            const highScore = await service.getHighestScore(ira, games);
-
-            expect(highScore).to.be.a('number');
+            expect(highScore).to.be.a('number').that.equals(52);
         });
     });
 

@@ -114,14 +114,14 @@ describe('PLAYER Repository', () => {
      */
     after(() => h.disconnectAll());
 
-    describe('#getPlayer', () => {
-        it('should return player and its scores', async () => {
-            const res = await controller.getPlayer('Patric');
-            console.log(res);
-
-            // const foo = await Player.find({nickname: 'Patric'}).populate('games').exec();
-            // console.log(foo)
-        });
-    });
+    // describe('#getPlayer', () => {
+    //     it('should return player and its scores', async () => {
+    //         const res = await controller.getPlayer('Patric');
+    //         console.log(res);
+    //
+    //         // const foo = await Player.find({nickname: 'Patric'}).populate('games').exec();
+    //         // console.log(foo)
+    //     });
+    // });
 
 });

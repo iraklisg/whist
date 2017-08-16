@@ -9,11 +9,6 @@ const assert = require('assert');
 const _ = require('lodash');
 const crudServices = require('../crud')('Player'); // the basic crud services for the Player model
 
-// These are imported for extra services.....
-const Game = require('../../models/Game/index');
-const gamesService = require('../../services/games');
-
-
 const makePlayersService = (playersRepository) => {
     assert(playersRepository, 'playersRepository is required.'); // Its a dependency
 
@@ -32,11 +27,11 @@ const makePlayersService = (playersRepository) => {
             },
 
             /**
-             *
-             * @param {Mongoose.<Player>} player
-             * @returns {Promise.<void>}
+             * Get all scores per game for a given player
+             * @param {Mongoose.<Player>} player - The player model
+             * @returns {Promise.<Array>} - An array of all player's final scores
              */
-            async getScoress(player) {
+            async getScores(player) {
 
                 /** [ ℹ ] *********************************************************
                  * IMPORTANT NOTE:
@@ -48,30 +43,15 @@ const makePlayersService = (playersRepository) => {
 
                 const newPlayer = await playersRepository.getByNickname(player.nickname);
                 const pPlayer = await newPlayer.populate('games').execPopulate();
-
-                // TODO work with pp.games to find the player's scores
-                return pPlayer; // pp is populated; players argument is not populated
-            },
-
-            /**
-             * Get all scores per game for a given player
-             * @param player {Mongoose.<Player>} - the person model
-             * @param games {Mongoose.<Collection>} - An array of Game models *populated with players* TODO: get this from games repository
-             * @returns {Promise.<Array>} scores - An array of scores
-             */
-            async getScores(player, games) {
-                try {
-                    let scores = [];
-                    for (let game of games) {
-                        let place = game.place;
-                        let date = game.datetime;
-                        let score = await this.getScore(player, game);
-                        scores.push({place, date, score});
-                    }
-                    return scores;
-                } catch (err) {
-                    throw new Error(err);
+                const games = pPlayer.games;
+                let scores = [];
+                for (let game of games) {
+                    let place = game.place;
+                    let date = game.datetime;
+                    let score = await this.getScore(player, game);
+                    scores.push({place, date, score});
                 }
+                return scores;
             },
 
             /**
@@ -96,8 +76,8 @@ const makePlayersService = (playersRepository) => {
              * @games {Mongoose.Collection} - The collection of all games
              * @returns {Number} - The highest victory
              */
-            async getHighestScore(player, games) {
-                const scoresTable = await this.getScores(player, games);
+            async getHighestScore(player) {
+                const scoresTable = await this.getScores(player);
                 let scores = scoresTable.map(score => score.score);
                 return _.max(scores)
             },
