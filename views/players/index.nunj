@@ -4,7 +4,14 @@
 {% block content %}
     <div class="column">
         {% for player in players %}
-            <div class="box">{{ player.first_name }} {{ player.last_name }}</div>
+            <div class="box">
+                <p>{{ player.first_name }} {{ player.last_name }}</p>
+                <p>HighestScore (final): {{ player.highScore }}</p>
+                <i class="fa fa-trophy" aria-hidden="true"></i> {{ player.aggregatedRankings.first }}
+                <i class="fa fa-trophy" aria-hidden="true"></i> {{ player.aggregatedRankings.second }}
+                <i class="fa fa-trophy" aria-hidden="true"></i> {{ player.aggregatedRankings.third }}
+
+            </div>
         {% endfor %}
     </div>
 {% endblock %}
