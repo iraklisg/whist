@@ -68,7 +68,7 @@ describe('PLAYERS service', () => {
                 players: [
                     {
                         player: playerIds[0],
-                        points: [19, 21, 23, 22, 25, 29, 28, 27, 30, 29, 27, 24, 23, 22, 21, 20, 23, 25, 24],
+                        points: [22, 21, 24, 22, 26, 25, 24, 27, 26, 25, 30, 33, 39, 37, 36, 35, 34, 36, 39],
                         order: 1
                     },
                     {
@@ -78,7 +78,7 @@ describe('PLAYERS service', () => {
                     },
                     {
                         player: playerIds[2],
-                        points: [22, 21, 24, 22, 26, 25, 24, 27, 26, 25, 30, 33, 39, 37, 36, 35, 34, 36, 39],
+                        points: [19, 21, 23, 22, 25, 29, 28, 27, 30, 29, 27, 24, 23, 22, 21, 20, 23, 25, 24],
                         order: 3
                     }
                 ]
@@ -140,12 +140,26 @@ describe('PLAYERS service', () => {
             expect(score).to.be.a('number');
         });
     });
+    
     describe('#getHighestScore', () => {
         it('return an array all player rankings', async () => {
             const bob = await repository.getByNickname('SpongeBob');
             const highScore = await service.getHighestScore(bob);
 
             expect(highScore).to.be.a('number').that.equals(52);
+        });
+    });
+    
+    describe('#getRankings', () => {
+        it('should return an array with player rankings per game', async () => {
+            const bob = await repository.getByNickname('SpongeBob');
+            const rankings = await service.getRankings(bob);
+
+            expect(rankings).to.have.lengthOf(3).and.to.containSubset([
+                {place: 'Milos', rank: 1},
+                {place: 'Gyzi', rank: 2},
+                {place: 'Peristeri', rank: 2},
+            ]);
         });
     });
 

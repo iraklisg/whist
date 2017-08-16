@@ -65,7 +65,7 @@ describe('PLAYER end-points', () => {
                 players: [
                     {
                         player: playerIds[0],
-                        points: [19, 21, 23, 22, 25, 29, 28, 27, 30, 29, 27, 24, 23, 22, 21, 20, 23, 25, 24],
+                        points: [22, 21, 24, 22, 26, 25, 24, 27, 26, 25, 30, 33, 39, 37, 36, 35, 34, 36, 39],
                         order: 1
                     },
                     {
@@ -75,7 +75,7 @@ describe('PLAYER end-points', () => {
                     },
                     {
                         player: playerIds[2],
-                        points: [22, 21, 24, 22, 26, 25, 24, 27, 26, 25, 30, 33, 39, 37, 36, 35, 34, 36, 39],
+                        points: [19, 21, 23, 22, 25, 29, 28, 27, 30, 29, 27, 24, 23, 22, 21, 20, 23, 25, 24],
                         order: 3
                     }
                 ]
@@ -121,9 +121,9 @@ describe('PLAYER end-points', () => {
                 .expect(200)
                 .then(res => {
                     expect(res.body).to.have.lengthOf(3).and.to.containSubset([
-                        {first_name: 'Eugene', last_name: 'Krabs', nickname: 'Mr.Crabs'},
-                        {first_name: 'Bob', last_name: 'SquarePants', nickname: 'SpongeBob'},
-                        {first_name: 'Patric', last_name: 'Star', nickname: 'Patric'}
+                        {first_name: 'Eugene', last_name: 'Krabs', nickname: 'Mr.Crabs', highScore: 39},
+                        {first_name: 'Bob', last_name: 'SquarePants', nickname: 'SpongeBob', highScore: 52},
+                        {first_name: 'Patric', last_name: 'Star', nickname: 'Patric', highScore: 62}
                     ])
                 })
         });

@@ -15,7 +15,18 @@ const playerController = {
      * @returns {Promise.<*>}
      */
     async getPlayers() {
-        return playersService.getAll();
+        const players = await playersService.getAll();
+
+        const res = await Promise.all(players.map(async (player) => {
+            return {
+                first_name: player.first_name,
+                last_name: player.last_name,
+                nickname: player.nickname,
+                highScore: await playersService.getHighestScore(player)
+            }
+        }));
+
+        return res
     },
 
     /**
