@@ -121,9 +121,39 @@ describe('PLAYER end-points', () => {
                 .expect(200)
                 .then(res => {
                     expect(res.body).to.have.lengthOf(3).and.to.containSubset([
-                        {first_name: 'Eugene', last_name: 'Krabs', nickname: 'Mr.Crabs', highScore: 39},
-                        {first_name: 'Bob', last_name: 'SquarePants', nickname: 'SpongeBob', highScore: 52},
-                        {first_name: 'Patric', last_name: 'Star', nickname: 'Patric', highScore: 62}
+                        {
+                            first_name: 'Eugene',
+                            last_name: 'Krabs',
+                            nickname: 'Mr.Crabs',
+                            highScore: 39,
+                            aggregatedRankings: {
+                                first: 1,
+                                second: 1,
+                                third: 1
+                            }
+                        },
+                        {
+                            first_name: 'Bob',
+                            last_name: 'SquarePants',
+                            nickname: 'SpongeBob',
+                            highScore: 52,
+                            aggregatedRankings: {
+                                first: 1,
+                                second: 2,
+                                third: 0
+                            }
+                        },
+                        {
+                            first_name: 'Patric',
+                            last_name: 'Star',
+                            nickname: 'Patric',
+                            highScore: 62,
+                            aggregatedRankings: {
+                                first: 2,
+                                second: 0,
+                                third: 1
+                            }
+                        }
                     ])
                 })
         });

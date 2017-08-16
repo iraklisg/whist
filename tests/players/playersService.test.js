@@ -140,7 +140,7 @@ describe('PLAYERS service', () => {
             expect(score).to.be.a('number');
         });
     });
-    
+
     describe('#getHighestScore', () => {
         it('return an array all player rankings', async () => {
             const bob = await repository.getByNickname('SpongeBob');
@@ -149,7 +149,7 @@ describe('PLAYERS service', () => {
             expect(highScore).to.be.a('number').that.equals(52);
         });
     });
-    
+
     describe('#getRankings', () => {
         it('should return an array with player rankings per game', async () => {
             const bob = await repository.getByNickname('SpongeBob');
@@ -160,6 +160,19 @@ describe('PLAYERS service', () => {
                 {place: 'Gyzi', rank: 2},
                 {place: 'Peristeri', rank: 2},
             ]);
+        });
+    });
+
+    describe('#getAggregatedRankings', () => {
+        it('should return an array with the player aggregated rankings', async () => {
+            const bob = await repository.getByNickname('SpongeBob');
+            const rankings = await service.getAggregatedRankings(bob);
+
+            expect(rankings).to.eql({
+                first: 1,
+                second: 2,
+                third: 0
+            });
         });
     });
 

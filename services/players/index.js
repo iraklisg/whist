@@ -51,7 +51,7 @@ const makePlayersService = (playersRepository) => {
             },
 
             /**
-             * TODO consider combine it with games service get ranking(game, player)
+             * TODO consider combine it with games service by extracting common logic to a separate service
              * Return the final score of a player for a given game.
              * @param {Mongoose.<Player>} player - The player model
              * @param {Mongoose.<Game>} game - The game model
@@ -84,7 +84,7 @@ const makePlayersService = (playersRepository) => {
 
 
             /**
-             * TODO consider combine it with games service get ranking(game, player)
+             * TODO consider combine it with games service by extracting common logic getranking(game, player)
              * Get all the rankings of a player
              * @param player
              * @returns {Promise<Array>}
@@ -145,6 +145,21 @@ const makePlayersService = (playersRepository) => {
                     })
                 }
                 return rankings
+            },
+
+            /**
+             * Get the aggregated rankings of a player
+             * @param player
+             * @returns {Promise.<{first: Number, second: Number, third: Number}>}
+             */
+            async getAggregatedRankings(player) {
+                const rankings = await this.getRankings(player);
+
+                return {
+                    first: _.filter(rankings, rank => rank.rank === 1).length,
+                    second: _.filter(rankings, rank => rank.rank === 2).length,
+                    third: _.filter(rankings, rank => rank.rank === 3).length
+                }
             }
 
         });

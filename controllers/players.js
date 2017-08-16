@@ -22,7 +22,8 @@ const playerController = {
                 first_name: player.first_name,
                 last_name: player.last_name,
                 nickname: player.nickname,
-                highScore: await playersService.getHighestScore(player)
+                highScore: await playersService.getHighestScore(player),
+                aggregatedRankings: await playersService.getAggregatedRankings(player)
             }
         }));
 
