@@ -37,19 +37,20 @@ const makePlayersService = (playersRepository) => {
              * @returns {Promise.<void>}
              */
             async getScoress(player) {
-                // If I apply populate() directly on player argument both p and player are populated
-                // Because player argument is passed by reference, the player variable in the controller be also populated !!!
-                // const p = await player.populate('games').execPopulate();
-                // return p; // p is populates; players argument is populated too!
 
-                // console.log(player);
-                const p = await playersRepository.getByNickname(player.nickname);
-                // console.log(p);
-                const pp = await p.populate('games').execPopulate();
-                console.log(pp);
+                /** [ ℹ ] *********************************************************
+                 * IMPORTANT NOTE:
+                 * We avoid calling `populate()` directly on `player` model argument,
+                 * because in this case the model (which is passed by reference)
+                 * will be also populated. Therefore we use the player repository
+                 * to await for a new player model and populate it
+                 *****************************************************************/
+
+                const newPlayer = await playersRepository.getByNickname(player.nickname);
+                const pPlayer = await newPlayer.populate('games').execPopulate();
 
                 // TODO work with pp.games to find the player's scores
-                return pp; // pp is populated; players argument is not populated
+                return pPlayer; // pp is populated; players argument is not populated
             },
 
             /**
