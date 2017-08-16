@@ -8,6 +8,28 @@
             <h1 class="title">Όλα τα παιχνίδια</h1>
             <h2 class="subtitle">Περιηγηθείτε σε όλα τα παιχνίδια</h2>
 
+            {#<div class="tile is-ancestor">#}
+
+                {#<div class="tile is-parent">#}
+                    {#<div class="tile is-child box">#}
+                        {#HELLO#}
+                    {#</div>#}
+                    {#<div class="tile is-child box">#}
+                        {#HELLO#}
+                    {#</div>#}
+                {#</div>#}
+
+                {#<div class="tile is-parent">#}
+                    {#<div class="tile is-child box">#}
+                        {#HELLO#}
+                    {#</div>#}
+                    {#<div class="tile is-child box">#}
+                        {#HELLO#}
+                    {#</div>#}
+                {#</div>#}
+
+            {#</div>#}
+
             {% for game in games %}{{ index0 }}
                 {% if loop.index0 % 2 == 0 %}
                     <div class="tile is-ancestor">

@@ -7,13 +7,16 @@
  */
 const assert = require('assert');
 const _ = require('lodash');
-const crudServices = require('../crud')('Player');                  // the basic crud services for the Player model
 
-const makePlayersService = (playersRepository) => {
-    assert(playersRepository, 'playersRepository is required.');    // Its a dependency
+const crudServices = require('../app/crud')('Player');  // the basic crud services for the Player model
+
+
+const makePlayersService = (playersRepository, commonServices) => {
+    assert(playersRepository, 'playersRepository is required.');  // Its a dependency
+    assert(commonServices, 'commonServices is required.');  // Its a dependency
 
     return Object.assign(
-        Object.create(crudServices),                                // crudServices are in the players service prototype
+        Object.create(crudServices),  // crudServices are in the players service prototype
         {
             /**
              * Finds a player by nickname
@@ -44,27 +47,10 @@ const makePlayersService = (playersRepository) => {
                 for (let game of games) {
                     let place = game.place;
                     let date = game.datetime;
-                    let score = await this.getScore(player, game);
+                    let score = await commonServices.getScore(player.id, game.id);
                     scores.push({place, date, score});
                 }
                 return scores;
-            },
-
-            /**
-             * TODO consider combine it with games service by extracting common logic to a separate service
-             * Return the final score of a player for a given game.
-             * @param {Mongoose.<Player>} player - The player model
-             * @param {Mongoose.<Game>} game - The game model
-             * @returns {Promise.<Number>} - The player's final score for this game
-             */
-            async getScore(player, game) {
-                const populatedGame = await game.populate('players.player').execPopulate();
-                return populatedGame.players
-                    .filter(playerInfo => playerInfo.player.nickname === player.nickname)
-                    .reduce((acc, playerInfo) => {
-                        acc = playerInfo.points.slice(-1)[0];
-                        return acc;
-                    }, 0)
             },
 
             /**

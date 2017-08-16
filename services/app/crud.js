@@ -7,7 +7,7 @@
  */
 const crudServices = (modelName) => {
 
-    const repository = require(`../repositories/crud`)(modelName);
+    const repository = require(`../../repositories/crud`)(modelName);
     return {
         /*
         These are added to factory's prototype
