@@ -26,7 +26,7 @@ const makeGamesService = (gamesRepository) => {
              */
             async getAllGames() {
                 // exec() on find returns a Promise instead of the default callback
-                return await gamesRepository.getAllGames();
+                return await gamesRepository.getAll();
             },
 
             /**
@@ -45,7 +45,7 @@ const makeGamesService = (gamesRepository) => {
              */
             async getGameById(gameId) {
                 // exec() on find returns a Promise instead of the default callback
-                return await gamesRepository.getGameById(gameId);
+                return await gamesRepository.get(gameId);
             },
 
             /**
