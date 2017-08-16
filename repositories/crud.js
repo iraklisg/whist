@@ -11,8 +11,7 @@ const crudActions = (modelName) => {
 
     return {
         async getAll() {
-            const models = await Model.find({}).exec();
-            return models;
+            return await Model.find({}).exec();
         },
 
         /**
@@ -20,10 +19,9 @@ const crudActions = (modelName) => {
          * @param id
          * @returns {Promise.<obj>} - The player of given id
          */
-        async get (id) {
+        async get(id) {
             // const player = _players.filter(player => player.id === id);
-            const model = await Model.findById(id).exec();
-            return model;
+            return await Model.findById(id).exec();
         },
 
         /**
@@ -32,8 +30,7 @@ const crudActions = (modelName) => {
          * @returns {Promise.<obj>}
          */
         async create(data) {
-            const newModel = await Model.create(data);
-            return newModel;
+            return await Model.create(data);
         },
 
         /**
@@ -43,8 +40,7 @@ const crudActions = (modelName) => {
          * @returns {Promise.<obj>}
          */
         async update(id, data) {
-            const updatedModel = await Model.findOneAndUpdate(id, {$set: data}, {new: true}).exec();
-            return updatedModel
+            return await Model.findOneAndUpdate(id, {$set: data}, {new: true}).exec();
         }
     }
 };
