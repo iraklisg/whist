@@ -64,8 +64,25 @@ const makePlayersService = (playersRepository, commonServices) => {
                 return _.max(scores)
             },
 
-            async getHighestPeak(player) {
+            /**
+             * Get the lowest final score achieved by a player (either victorious or not).
+             * @param {Mongoose.<Player>} player
+             * @returns {Promise.<Number>} - The highest final score
+             */
+            async getLowestScore(player) {
+                const scoresTable = await this.getScores(player);
+                let scores = scoresTable.map(score => score.score);
+                return _.min(scores)
+            },
+
+            /**
+             *
+             * @param player
+             * @returns {Promise.<{a: string}>}
+             */
+            async getHighestPoint(player) {
                 //TODO: get the highest peak ever achieved
+                return {a: 'fpp'}
             },
 
 
@@ -101,10 +118,10 @@ const makePlayersService = (playersRepository, commonServices) => {
                     // Calculate the player's rank by comparing his score with other players' scores
                     let rank = 0
                         , normalizedIndex = 0;
+
                     ranking.forEach((item, index) => {
                         if (item.playerId.toString() === player.id) {
                             normalizedIndex = tie ? index + 1 : index;
-
                             switch (normalizedIndex) {
                                 case 0:
                                     rank = 3;

@@ -11,12 +11,12 @@ chai.use(require('chai-things'));
 const expect = chai.expect;
 
 // Entities under test
-const {makePlayersRepository} = require('../../repositories/players/index');
-const {makePlayersService} = require('../../services/players/index');
+// const {makePlayersRepository} = require('../../repositories/players/index');
+// const {makePlayersService} = require('../../services/players/index');
 const {makeCommonServices} = require('../../services/app/common');
-const repository = makePlayersRepository();
+// const repository = makePlayersRepository();
 const commonServices = makeCommonServices();
-const service = makePlayersService(repository, commonServices);
+// const service = makePlayersService(repository, commonServices);
 
 
 describe('PLAYERS service', () => {
@@ -119,73 +119,20 @@ describe('PLAYERS service', () => {
      */
     after(() => h.disconnectAll());
 
-    describe('#getScores', () => {
-        it('should return the given player final scores', async () => {
-            const bob = {nickname: 'SpongeBob', id: playerIds[1]}; // mock the player
-            const scores = await service.getScores(bob);
+    describe('#getScore', () => {
+        it('should return the final score for a given player in a given game', async () => {
+            const score = await commonServices.getScore(playerIds[0], gameIds[1]);
 
-            // TODO: work a little bit more on dates
-            expect(scores).to.containSubset([
-                {place: 'Milos', score: 36},
-                {place: 'Gyzi', score: 32},
-                {place: 'Peristeri', score: 52}
-            ])
+            expect(score).to.eql(39);
         });
     });
 
-    // describe('#getScore', () => {
-    //     it('return the final score of player fot this game', async () => {
-    //         const bob = await repository.getByNickname('SpongeBob');
-    //         const games = await Game.findOne().exec(); // should take this from a repo
-    //         const score = await service.getScore(bob, games);
-    //
-    //         expect(score).to.be.a('number');
-    //     });
-    // });
+    describe('#getPoints', () => {
+        it('should return the points array for a given player in a given game', async () => {
+            const points = await commonServices.getPoints(playerIds[0], gameIds[1]);
 
-    describe('#getHighestScore', () => {
-        it('return an array all player rankings', async () => {
-            const bob = await repository.getByNickname('SpongeBob');
-            const highScore = await service.getHighestScore(bob);
-
-            expect(highScore).to.be.a('number').that.equals(52);
+            expect(points).to.eql([22, 21, 24, 22, 26, 25, 24, 27, 26, 25, 30, 33, 39, 37, 36, 35, 34, 36, 39]);
         });
     });
-
-    describe('#getLowestScore', () => {
-        it('return an array all player rankings', async () => {
-            const bob = await repository.getByNickname('SpongeBob');
-            const highScore = await service.getLowestScore(bob);
-
-            expect(highScore).to.be.a('number').that.equals(32);
-        });
-    });
-
-    describe('#getRankings', () => {
-        it('should return an array with player rankings per game', async () => {
-            const bob = await repository.getByNickname('SpongeBob');
-            const rankings = await service.getRankings(bob);
-
-            expect(rankings).to.have.lengthOf(3).and.to.containSubset([
-                {place: 'Milos', rank: 1},
-                {place: 'Gyzi', rank: 2},
-                {place: 'Peristeri', rank: 2},
-            ]);
-        });
-    });
-
-    describe('#getAggregatedRankings', () => {
-        it('should return an array with the player aggregated rankings', async () => {
-            const bob = await repository.getByNickname('SpongeBob');
-            const rankings = await service.getAggregatedRankings(bob);
-
-            expect(rankings).to.eql({
-                first: 1,
-                second: 2,
-                third: 0
-            });
-        });
-    });
-
 
 });
