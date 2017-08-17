@@ -13,8 +13,10 @@ const expect = chai.expect;
 // Entities under test
 const {makePlayersRepository} = require('../../repositories/players/index');
 const {makePlayersService} = require('../../services/players/index');
+const {makeCommonServices} = require('../../services/app/common');
 const repository = makePlayersRepository();
-const service = makePlayersService(repository);
+const commonServices = makeCommonServices();
+const service = makePlayersService(repository, commonServices);
 
 
 describe('PLAYERS service', () => {
@@ -119,7 +121,7 @@ describe('PLAYERS service', () => {
 
     describe('#getScores', () => {
         it('should return the given player final scores', async () => {
-            const bob = {nickname: 'SpongeBob'}; // mock the player
+            const bob = {nickname: 'SpongeBob', id: playerIds[1]}; // mock the player
             const scores = await service.getScores(bob);
 
             // TODO: work a little bit more on dates
@@ -131,15 +133,15 @@ describe('PLAYERS service', () => {
         });
     });
 
-    describe('#getScore', () => {
-        it('return the final score of player fot this game', async () => {
-            const bob = await repository.getByNickname('SpongeBob');
-            const games = await Game.findOne().exec(); // should take this from a repo
-            const score = await service.getScore(bob, games);
-
-            expect(score).to.be.a('number');
-        });
-    });
+    // describe('#getScore', () => {
+    //     it('return the final score of player fot this game', async () => {
+    //         const bob = await repository.getByNickname('SpongeBob');
+    //         const games = await Game.findOne().exec(); // should take this from a repo
+    //         const score = await service.getScore(bob, games);
+    //
+    //         expect(score).to.be.a('number');
+    //     });
+    // });
 
     describe('#getHighestScore', () => {
         it('return an array all player rankings', async () => {

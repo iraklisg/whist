@@ -20,7 +20,7 @@ const makeCommonServices = () => {
             const game = await gameRepo.get(gameId);
             const populatedGame = await game.populate('players.player').execPopulate();
             return populatedGame.players
-                .filter(playerInfo => playerInfo.player.id === playerId)
+                .filter(playerInfo => playerInfo.player.id === playerId.toString())
                 .reduce((acc, playerInfo) => {
                     acc = playerInfo.points.slice(-1)[0];
                     return acc;
