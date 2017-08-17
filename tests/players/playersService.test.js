@@ -98,7 +98,7 @@ describe('PLAYERS service', () => {
                     },
                     {
                         player: playerIds[1],
-                        points: [23, 26, 29, 35, 34, 37, 42, 44, 48, 46, 45, 44, 48, 50, 52, 51, 50, 49, 52],
+                        points: [23, 26, 29, 35, 34, 37, 42, 44, 48, 46, 45, 44, 48, 50, 53, 51, 50, 49, 52],
                         order: 2
                     },
                     {
@@ -133,16 +133,6 @@ describe('PLAYERS service', () => {
         });
     });
 
-    // describe('#getScore', () => {
-    //     it('return the final score of player fot this game', async () => {
-    //         const bob = await repository.getByNickname('SpongeBob');
-    //         const games = await Game.findOne().exec(); // should take this from a repo
-    //         const score = await service.getScore(bob, games);
-    //
-    //         expect(score).to.be.a('number');
-    //     });
-    // });
-
     describe('#getHighestScore', () => {
         it('return an array all player rankings', async () => {
             const bob = await repository.getByNickname('SpongeBob');
@@ -158,6 +148,45 @@ describe('PLAYERS service', () => {
             const highScore = await service.getLowestScore(bob);
 
             expect(highScore).to.be.a('number').that.equals(32);
+        });
+    });
+
+    describe('#getAverageScore', () => {
+        it('should return the average score of a player', async () => {
+            const avgScore = await service.getAverageScore(await repository.getByNickname('SpongeBob'));
+
+            console.log(avgScore);
+
+            expect(avgScore).to.be.a('number').that.equals(40);
+        });
+    });
+
+    describe('#getPoints', () => {
+        it('should return all points of a player', async () => {
+            const bob = await repository.getByNickname('SpongeBob');
+            const points = await service.getPoints(bob);
+
+            expect(points).to.containSubset([
+                {place: 'Milos', points: [23, 26, 24, 28, 32, 36, 35, 34, 36, 32, 31, 30, 33, 32, 34, 37, 35, 33, 36]},
+                {place: 'Gyzi', points: [23, 26, 25, 27, 26, 24, 23, 22, 27, 26, 25, 28, 30, 32, 31, 33, 35, 33, 32]},
+                {place: 'Peristeri', points: [23, 26, 29, 35, 34, 37, 42, 44, 48, 46, 45, 44, 48, 50, 53, 51, 50, 49, 52]}
+            ])
+        });
+    });
+
+    describe('#getHighestPoint', () => {
+        it('should return the highest point achieved by a player, at some point, in all games', async () => {
+            const highScore = await service.getHighestPoint(await repository.getByNickname('SpongeBob'));
+
+            expect(highScore).to.be.a('number').that.equals(53);
+        });
+    });
+
+    describe('#getLowestPoint', () => {
+        it('should return the lowest point scored by a player, at some point, in all games', async () => {
+            const highScore = await service.getLowestPoint(await repository.getByNickname('SpongeBob'));
+
+            expect(highScore).to.be.a('number').that.equals(22);
         });
     });
 

@@ -61,7 +61,7 @@ const makePlayersService = (playersRepository, commonServices) => {
             async getHighestScore(player) {
                 const scoresTable = await this.getScores(player);
                 let scores = scoresTable.map(score => score.score);
-                return _.max(scores)
+                return _.max(scores);
             },
 
             /**
@@ -72,17 +72,59 @@ const makePlayersService = (playersRepository, commonServices) => {
             async getLowestScore(player) {
                 const scoresTable = await this.getScores(player);
                 let scores = scoresTable.map(score => score.score);
-                return _.min(scores)
+                return _.min(scores);
             },
 
             /**
-             *
-             * @param player
-             * @returns {Promise.<{a: string}>}
+             * Get the average final score of a player.
+             * @param {Mongoose.<Player>} player
+             * @returns {Promise.<Number>}
+             */
+            async getAverageScore(player) {
+                const scoresTable = await this.getScores(player);
+                let scores = scoresTable.map(score => score.score);
+                return _.mean(scores);
+            },
+
+            /**
+             * Get all points achieved by a player in all games
+             * @param {Model} player
+             * @returns {Promise.<Array<number>>}
+             */
+            async getPoints(player) {
+                const newPlayer = await playersRepository.getByNickname(player.nickname);
+                const pPlayer = await newPlayer.populate('games').execPopulate();
+                const allPoints = [];
+                for (let game of pPlayer.games) {
+                    allPoints.push({
+                        place: game.place,
+                        date: game.datetime,
+                        points: await commonServices.getPoints(player.id, game.id)
+                    });
+                }
+                return allPoints;
+            },
+
+            /**
+             * Get the highest point ever achieved by a player
+             * @param {Model} player
+             * @returns {Promise.<number>}
              */
             async getHighestPoint(player) {
-                //TODO: get the highest peak ever achieved
-                return {a: 'fpp'}
+                const allPoints = await this.getPoints(player);
+                const highestPoints = allPoints.map(pointsInfo => _.max(pointsInfo.points));
+                return _.max(highestPoints);
+            },
+
+            /**
+             * Get the lowest point ever achieved by a player
+             * @param {Model} player
+             * @returns {Promise.<number>}
+             */
+            async getLowestPoint(player) {
+                const allPoints = await this.getPoints(player);
+                const highestPoints = allPoints.map(pointsInfo => _.min(pointsInfo.points));
+                return _.min(highestPoints);
             },
 
 
