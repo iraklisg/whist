@@ -9,5 +9,6 @@
 </head>
 <body>
     {% block index_content %}{% endblock %}
+    {% block my_scripts %}{% endblock %}
 </body>
 </html>

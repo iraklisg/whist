@@ -83,7 +83,7 @@ const makePlayersService = (playersRepository, commonServices) => {
             async getAverageScore(player) {
                 const scoresTable = await this.getScores(player);
                 let scores = scoresTable.map(score => score.score);
-                return _.mean(scores);
+                return Math.round(_.mean(scores));
             },
 
             /**

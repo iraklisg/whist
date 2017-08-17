@@ -25,7 +25,11 @@ const playerController = {
                 last_name: player.last_name,
                 nickname: player.nickname,
                 highScore: await playersService.getHighestScore(player),
-                aggregatedRankings: await playersService.getAggregatedRankings(player)
+                lowScore: await playersService.getLowestScore(player),
+                averageScore: await playersService.getAverageScore(player),
+                aggregatedRankings: await playersService.getAggregatedRankings(player),
+                highPoint: await playersService.getHighestPoint(player),
+                lowPoint: await playersService.getLowestPoint(player),
             }
         }))
     },
