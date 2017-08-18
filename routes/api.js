@@ -14,7 +14,7 @@ const urlencodedParser = bodyParser.urlencoded({extended: false});
 const router = express.Router();
 
 /**
- * Get all players
+ * Get all p0layer's rankings
  */
 router.get('/players/:nickname/rankings', async (req, res) => {
     try {
