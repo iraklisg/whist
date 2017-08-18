@@ -18,8 +18,7 @@ const playerController = {
      */
     async getPlayers() {
         const players = await playersService.getAll();
-
-        return await Promise.all(players.map(async (player) => {
+        const playersWithRankings = await Promise.all(players.map(async (player) => {
             return {
                 first_name: player.first_name,
                 last_name: player.last_name,
@@ -31,7 +30,8 @@ const playerController = {
                 highPoint: await playersService.getHighestPoint(player),
                 lowPoint: await playersService.getLowestPoint(player),
             }
-        }))
+        }));
+        return _.sortBy(playersWithRankings, ['aggregatedRankings.first']).reverse();
     },
 
     /**
