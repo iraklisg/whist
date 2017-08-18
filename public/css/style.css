@@ -1,3 +1,8 @@
+/*Vertical align the text within a bulma column*/
+.has-text-middle {
+    margin-top: auto;
+    margin-bottom: auto;
+}
 
 .column.column-centered {
     display: flex;
