@@ -34,6 +34,14 @@ const makeGamesService = (gamesRepository, commonServices) => {
             },
 
             /**
+             * Finds all games, sorted by date (newer comes first)
+             * @returns {Promise}
+             */
+            async getAllGamesByDate() {
+                return await Game.find({}).sort('-datetime').exec();
+            },
+
+            /**
              * Finds all games with players (referenced value) populated
              * @returns {Promise}
              */

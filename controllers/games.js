@@ -19,7 +19,7 @@ const gameController = {
      * @returns {Promise.<*>}
      */
     async getGames() {
-        let games = await gamesService.getAllGames();
+        let games = await gamesService.getAllGamesByDate();
         let enhancedGames = [];
         for (let game of games) {
             let players = await gamesService.getRanking(game.id);

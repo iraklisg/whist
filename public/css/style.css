@@ -36,6 +36,7 @@ img.avatar {
 
 .game-players-wrapper .game-player-wrapper {
     display: flex;
+    align-items: center;
 }
 
 .game-players-wrapper .game-player-wrapper .game-player-info {

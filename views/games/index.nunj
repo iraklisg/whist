@@ -2,6 +2,7 @@
 
 
 {% block content %}
+
     <div class="columns">
         <div class="column">
 
@@ -75,7 +76,7 @@
                                         {% endif %}
                                         <p class="line-info">
                                             <i class="fa fa-calendar fa-fw" aria-hidden="true"></i>
-                                            <span class="game-data">{{ game.game.datetime.toLocaleString() }}</span>
+                                            <span class="game-data">{{ game.game.datetime|date }}</span>
                                         </p>
                                     </div>
                                 </div>
@@ -85,24 +86,13 @@
                                             {% for player in game.players %}
                                                 <div class="column game-player-wrapper">
                                                     <div class="game-player-info">
-                                                        <a href="/players/{{ player.player.id }}">
-                                                            <img class="avatar" src="http://placehold.it/70x70" alt="" width="70" height="70">
+                                                        <a href="/players/{{ player.player.nickname }}">
+                                                            <img class="avatar" src="http://placehold.it/70x70" alt="" width="{% if player.rank == 1 %}100{% elseif player.rank == 2 %}75{% else %}50{% endif %}" height="{% if player.rank == 1 %}100{% elseif player.rank == 2 %}75{% else %}50{% endif %}">
                                                         </a>
-                                                        <a href="/players/{{ player.player.id }}">
+                                                        <a href="/players/{{ player.player.nickname }}">
                                                             <span {% if player.rank == 1 %}class="title is-4"{% endif %}>{{ player.player.nickname|capitalize }} {{ player.final }}</span>
                                                         </a>
-                                                        {#<span {% if player.rank == 1 %}class="subtitle"{% endif %}>{{ player.final }}</span>#}
                                                     </div>
-                                                    {#<div class="game-player-info">#}
-                                                        {#<p class="line-info">#}
-                                                            {#<i class="fa fa-user fa-fw" aria-hidden="true"></i>#}
-                                                            {#<span class="game-data">{{ player.player.first_name }} {{ player.player.last_name }}</span>#}
-                                                        {#</p>#}
-                                                        {#<p class="line-info">#}
-                                                            {#<i class="fa fa-trophy fa-fw" aria-hidden="true"></i>#}
-                                                            {#<span class="game-data">{{ player.final }}</span>#}
-                                                        {#</p>#}
-                                                    {#</div>#}
                                                 </div>
                                             {% endfor %}
                                         </div>
@@ -111,38 +101,6 @@
                             </div>
                         </div>
                     </div>
-
-
-
-
-
-
-                    {#<div class="box">#}
-                        {#<div class="columns">#}
-
-                            {#<div class="column{% if game.winners.length == 1 %} is-4{% endif %}">#}
-                                {#<div class="columns">#}
-                                    {#{% for winner in game.winners %}#}
-                                        {#<div class="column column-centered">#}
-                                            {#<div class="game-winners">#}
-                                                {#<img class="avatar" src="http://placehold.it/100x100" alt="" width="100" height="100">#}
-                                                {#<p>{{ winner.player.first_name }} {{ winner.player.last_name }}</p>#}
-                                                {#<p>{{ winner.final }}</p>#}
-                                            {#</div>#}
-                                        {#</div>#}
-                                    {#{% endfor %}#}
-                                {#</div>#}
-                            {#</div>#}
-
-                            {#<div class="column border-left padding-left">#}
-                                {#<div class="game-info">#}
-                                    {#<p>Place: {{ game.game.place }}</p>#}
-                                    {#<p>Event: {{ game.game.event }}</p>#}
-                                    {#<p>Date: {{ game.game.datetime.toLocaleString() }}</p>#}
-                                {#</div>#}
-                            {#</div>#}
-                        {#</div>#}
-                    {#</div>#}
                 </div>
 
                 {% if loop.index0 % 2 != 0 %}
@@ -152,4 +110,5 @@
 
         </div>
     </div>
+
 {% endblock %}
