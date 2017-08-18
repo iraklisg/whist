@@ -12,6 +12,7 @@ axios.all([
 
         // Create a gameIds array to use it as the x-axis
         const gameIds = nickRankings.map(ranking => ranking.gameId);
+        const dates = nickRankings.map(ranking => ranking.date);
 
         // Assure that all rankings are pushed in the array in the same order (i.e correspond to the same game)
         const nickData = []
@@ -77,7 +78,7 @@ axios.all([
             }
         };
 
-        drawLineGraph(gameIds, dataSets, options)
+        drawLineGraph(dates, dataSets, options)
 
     }))
     .catch(error => console.log(error));
