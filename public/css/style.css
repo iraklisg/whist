@@ -24,15 +24,21 @@ img.avatar {
     align-self: center;
 }
 
-.game-winners-wrapper-multiple .game-winner-wrapper {
+/*.game-winners-wrapper-multiple .game-winner-wrapper {*/
+    /*display: flex;*/
+    /*justify-content: space-around;*/
+/*}*/
+
+.game-players-wrapper .game-player-wrapper {
     display: flex;
-    justify-content: space-around;
 }
 
-.game-winners-wrapper .game-winner-wrapper {
+.game-players-wrapper .game-player-wrapper .game-player-info {
     display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.game-winners-wrapper .game-winner-avatar {
-    margin-right: 10px;
+.game-player-info a {
+    color: inherit;
 }

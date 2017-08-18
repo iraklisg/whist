@@ -22,8 +22,8 @@ const gameController = {
         let games = await gamesService.getAllGames();
         let enhancedGames = [];
         for (let game of games) {
-            let winners = await gamesService.getWinnersAndScores(game.id);
-            enhancedGames.push({game: game, winners: winners});
+            let players = await gamesService.getRanking(game.id);
+            enhancedGames.push({game: game, players: players});
         }
         return enhancedGames;
         // return games.map(async game => {

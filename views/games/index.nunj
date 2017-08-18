@@ -57,7 +57,7 @@
                         <div class="columns">
                             <div class="column is-4 column-centered">
                                 <div>
-                                    <img class="avatar" src="http://placehold.it/100x100" alt="" width="100" height="100">
+                                    <img class="avatar" src="http://placehold.it/200x200" alt="" width="200" height="200">
                                 </div>
                             </div>
                             <div class="column">
@@ -80,23 +80,29 @@
                                     </div>
                                 </div>
                                 <div class="column">
-                                    <div class="{% if game.winners.length == 1 %}game-winners-wrapper{% else %}game-winners-wrapper-multiple{% endif %}">
+                                    <div class="game-players-wrapper">
                                         <div class="columns">
-                                            {% for winner in game.winners %}
-                                                <div class="column game-winner-wrapper">
-                                                    <div class="game-winner-avatar">
-                                                        <img class="avatar" src="http://placehold.it/70x70" alt="" width="70" height="70">
+                                            {% for player in game.players %}
+                                                <div class="column game-player-wrapper">
+                                                    <div class="game-player-info">
+                                                        <a href="/players/{{ player.player.id }}">
+                                                            <img class="avatar" src="http://placehold.it/70x70" alt="" width="70" height="70">
+                                                        </a>
+                                                        <a href="/players/{{ player.player.id }}">
+                                                            <span {% if player.rank == 1 %}class="title is-4"{% endif %}>{{ player.player.nickname|capitalize }} {{ player.final }}</span>
+                                                        </a>
+                                                        {#<span {% if player.rank == 1 %}class="subtitle"{% endif %}>{{ player.final }}</span>#}
                                                     </div>
-                                                    <div class="game-winner-info">
-                                                        <p class="line-info">
-                                                            <i class="fa fa-user fa-fw" aria-hidden="true"></i>
-                                                            <span class="game-data">{{ winner.player.first_name }} {{ winner.player.last_name }}</span>
-                                                        </p>
-                                                        <p class="line-info">
-                                                            <i class="fa fa-trophy fa-fw" aria-hidden="true"></i>
-                                                            <span class="game-data">{{ winner.final }}</span>
-                                                        </p>
-                                                    </div>
+                                                    {#<div class="game-player-info">#}
+                                                        {#<p class="line-info">#}
+                                                            {#<i class="fa fa-user fa-fw" aria-hidden="true"></i>#}
+                                                            {#<span class="game-data">{{ player.player.first_name }} {{ player.player.last_name }}</span>#}
+                                                        {#</p>#}
+                                                        {#<p class="line-info">#}
+                                                            {#<i class="fa fa-trophy fa-fw" aria-hidden="true"></i>#}
+                                                            {#<span class="game-data">{{ player.final }}</span>#}
+                                                        {#</p>#}
+                                                    {#</div>#}
                                                 </div>
                                             {% endfor %}
                                         </div>

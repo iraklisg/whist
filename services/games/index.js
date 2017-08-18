@@ -133,9 +133,9 @@ const makeGamesService = (gamesRepository, commonServices) => {
              * Finds the ranking per player, for a given game.
              * Returns an array consisting of
              * [
-             *   {player: <Player Model>, rank: Number},
-             *   {player: <Player Model>, rank: Number},
-             *   {player: <Player Model>, rank: Number},
+             *   {player: <Player Model>, rank: Number, final: Number},
+             *   {player: <Player Model>, rank: Number, final: Number},
+             *   {player: <Player Model>, rank: Number, final: Number},
              * ]
              * @param {String} gameId
              * @returns {Promise}
@@ -158,7 +158,8 @@ const makeGamesService = (gamesRepository, commonServices) => {
                 return scores.map((score, i) => {
                     return {
                         player: score.player,
-                        rank: rankings[i]
+                        rank: rankings[i],
+                        final: score.final,
                     }
                 });
             }
