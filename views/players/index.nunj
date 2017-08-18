@@ -1,33 +1,40 @@
 {% extends 'base/index.nunj' %}
 
 {% block content %}
-    <div class="column">
+
+    <div class="columns">
         {% for player in players %}
-            <div class="box">
-                {# Player fullname #}
-                <h4 class="title is-4">{{ player.first_name }} {{ player.last_name }}</h4>
-                {# Player victories #}
-                <div class="columns">
-                    <div class="column is-2">Victories:</div>
-                    <div class="column">
-                        <i class="fa fa-trophy" aria-hidden="true"></i> {{ player.aggregatedRankings.first }}
-                    </div>
-                </div>
-                {# Player scores #}
-                <div class="columns">
-                    <div class="column is-2">Final scores:</div>
-                    <div class="column">
-                        <i class="fa fa-chevron-up" aria-hidden="true"></i> {{ player.highScore }}
-                        <i class="fa fa-chevron-down" aria-hidden="true"></i> {{ player.lowScore }}
-                        (avg. {{ player.averageScore }})
-                    </div>
-                </div>
-                {# Player points #}
-                <div class="columns">
-                    <div class="column is-2">Points</div>
-                    <div class="column">
-                        <i class="fa fa-chevron-up" aria-hidden="true"></i> {{ player.highPoint }}
-                        <i class="fa fa-chevron-down" aria-hidden="true"></i> {{ player.lowPoint }}
+            <div class="column">
+                <div class="box">
+
+                    <div class="columns">
+                        <div class="column">
+                            {# Avatar #}
+                            <div>
+                                <img class="avatar" src="http://placehold.it/100x100" alt="" width="100" height="100">
+                            </div>
+                            {# Nickname #}
+                            <h4 class="title is-4 is-centered">{{ player.nickname }}</h4>
+                        </div>
+                        <div class="column">
+                            {# Victories #}
+                            <div>
+                                <i class="fa fa-trophy" aria-hidden="true"></i> {{ player.aggregatedRankings.first }}
+                            </div>
+                            {# Hi/low score #}
+                            <div>
+                                <i class="fa fa-flag-checkered" aria-hidden="true"></i>
+                                {{ player.highScore }} <i class="fa fa-chevron-up" aria-hidden="true"></i>
+                                {{ player.lowScore }} <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                                (avg. {{ player.averageScore }})
+                            </div>
+                            {# Hi/low points #}
+                            <div>
+                                <i class="fa fa-fire" aria-hidden="true"></i>
+                                {{ player.highPoint }} <i class="fa fa-chevron-up" aria-hidden="true"></i>
+                                {{ player.lowPoint }} <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
