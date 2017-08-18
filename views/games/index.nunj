@@ -8,48 +8,103 @@
             <h1 class="title">Όλα τα παιχνίδια</h1>
             <h2 class="subtitle">Περιηγηθείτε σε όλα τα παιχνίδια</h2>
 
-            {#<div class="tile is-ancestor">#}
-
-                {#<div class="tile is-parent">#}
-                    {#<div class="tile is-child box">#}
-                        {#HELLO#}
-                    {#</div>#}
-                    {#<div class="tile is-child box">#}
-                        {#HELLO#}
+            {#<div class="columns">#}
+                {#<div class="column is-half">#}
+                    {#<div class="box">#}
+                        {#<div class="columns">#}
+                            {#<div class="column">#}
+                                {#<div>#}
+                                    {#<img src="http://placehold.it/112x38" alt="" width="112" height="38">#}
+                                    {#<p>Winner: John</p>#}
+                                    {#<p>Score: 78</p>#}
+                                {#</div>#}
+                            {#</div>#}
+                            {#<div class="column border-left">#}
+                                {#<div class="border-left">#}
+                                    {#<p>Place: Milos</p>#}
+                                    {#<p>Event: Referendum Day</p>#}
+                                    {#<p>Date: 23/8/2016</p>#}
+                                {#</div>#}
+                            {#</div>#}
+                        {#</div>#}
                     {#</div>#}
                 {#</div>#}
 
-                {#<div class="tile is-parent">#}
-                    {#<div class="tile is-child box">#}
-                        {#HELLO#}
-                    {#</div>#}
-                    {#<div class="tile is-child box">#}
-                        {#HELLO#}
+                {#<div class="column is-half">#}
+                    {#<div class="box">#}
+                        {#<div class="columns">#}
+                            {#<div class="column">#}
+                                {#<div>#}
+                                    {#<img src="http://placehold.it/112x38" alt="" width="112" height="38">#}
+                                    {#<p>Winner: John</p>#}
+                                    {#<p>Score: 78</p>#}
+                                {#</div>#}
+                            {#</div>#}
+                            {#<div class="column border-left">#}
+                                {#<div class="border-left">#}
+                                    {#<p>Place: Milos</p>#}
+                                    {#<p>Event: Referendum Day</p>#}
+                                    {#<p>Date: 23/8/2016</p>#}
+                                {#</div>#}
+                            {#</div>#}
+                        {#</div>#}
                     {#</div>#}
                 {#</div>#}
-
             {#</div>#}
 
-            {% for game in games %}{{ index0 }}
+            {% for game in games %}
                 {% if loop.index0 % 2 == 0 %}
-                    <div class="tile is-ancestor">
+                    <div class="columns">
                 {% endif %}
-                <div class="tile is-parent">
-                    <article class="tile is-child box">
-                        {% for winner in game.winners %}
-                            <p class="title box">
-                                {{ winner.player.first_name }} {{ winner.player.last_name }} - {{ winner.final }}
-                                <span class="subtitle">Σειρά: {{ winner.order }}</span>
-                            </p>
-                        {% endfor %}
-                        <p class="subtitle">{{ game.game.datetime.toLocaleString() }}</p>
-                        {% if game.game.notes %}<p class="subtitle">{{ game.game.notes }}</p>{% endif %}
-                    </article>
+
+                <div class="column is-half">
+                    <div class="box">
+                        <div class="columns">
+
+                            <div class="column{% if game.winners.length == 1 %} is-4{% endif %}">
+                                <div class="columns">
+                                    {% for winner in game.winners %}
+                                        <div class="column column-centered">
+                                            <div class="game-winners">
+                                                <img class="avatar" src="http://placehold.it/100x100" alt="" width="100" height="100">
+                                                <p>{{ winner.player.first_name }} {{ winner.player.last_name }}</p>
+                                                <p>{{ winner.final }}</p>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <div class="column border-left padding-left">
+                                <div class="game-info">
+                                    <p>Place: {{ game.game.place }}</p>
+                                    <p>Event: {{ game.game.event }}</p>
+                                    <p>Date: {{ game.game.datetime.toLocaleString() }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
+
+
+                {#<div class="tile is-parent">#}
+                    {#<article class="tile is-child box">#}
+                        {#{% for winner in game.winners %}#}
+                            {#<p class="title box">#}
+                                {#{{ winner.player.first_name }} {{ winner.player.last_name }} - {{ winner.final }}#}
+                                {#<span class="subtitle">Σειρά: {{ winner.order }}</span>#}
+                            {#</p>#}
+                        {#{% endfor %}#}
+                        {#<p class="subtitle">{{ game.game.datetime.toLocaleString() }}</p>#}
+                        {#{% if game.game.notes %}<p class="subtitle">{{ game.game.notes }}</p>{% endif %}#}
+                    {#</article>#}
+                {#</div>#}
                 {% if loop.index0 % 2 != 0 %}
                     </div>
                 {% endif %}
             {% endfor %}
+
         </div>
     </div>
 {% endblock %}

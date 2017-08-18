@@ -1,0 +1,17 @@
+
+.column.column-centered {
+    display: flex;
+    justify-content: center;
+}
+
+img.avatar {
+    border-radius: 50%;
+}
+
+.border-left {
+    border-left: 2px solid rgba(10, 10, 10, 0.1);
+}
+
+.padding-left {
+    padding-left: 30px;
+}
