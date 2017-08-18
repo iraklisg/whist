@@ -155,8 +155,6 @@ describe('PLAYERS service', () => {
         it('should return the average score of a player', async () => {
             const avgScore = await service.getAverageScore(await repository.getByNickname('SpongeBob'));
 
-            console.log(avgScore);
-
             expect(avgScore).to.be.a('number').that.equals(40);
         });
     });

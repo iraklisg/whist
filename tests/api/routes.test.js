@@ -119,7 +119,6 @@ describe('API end-points', () => {
     describe('GET /api/players/:nickname/rankings', () => {
         it('should return all rankings of this player', async () => {
             const response = await request(app).get('/api/players/SpongeBob/rankings'); // see http://www.albertgao.xyz/2017/05/24/how-to-test-expressjs-with-jest-and-supertest/#5-Async-await-way-to-test
-            console.log(response.body);
             expect(response.statusCode).to.equal(200);
             expect(response.body).to.eql([
                 {gameId: gameIds[0].toString(), rank: 1},

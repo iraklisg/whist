@@ -1,18 +1,20 @@
-// Prepare testing database
-const h = require('../testHelpers');
+const chai = require('chai');
+const chaiSubset = require('chai-subset');
+const chaiThings = require('chai-things');
+const request = require('supertest');
+const cheerio = require('cheerio');
 const ObjectId = require('mongoose').Types.ObjectId;
+
+// Prepare testing database
+const {app} = require('../../app');
+const h = require('../testHelpers');
 const Player = require('../../models/Player');
 const Game = require('../../models/Game');
 
-// Assertion library
-const chai = require('chai');
-chai.use(require('chai-subset'));
-chai.use(require('chai-things'));
+// Initialize chai assertion library
+chai.use(chaiSubset);
+chai.use(chaiThings);
 const expect = chai.expect;
-
-// Entity under test
-const request = require('supertest');
-const {app} = require('../../app');
 
 describe('PLAYER end-points', () => {
     const playerIds = [ObjectId(1), ObjectId(2), ObjectId(3)];
@@ -120,46 +122,15 @@ describe('PLAYER end-points', () => {
                 .get('/players')
                 .expect(200)
                 .then(res => {
-                    expect(res.body).to.have.lengthOf(3).and.to.containSubset([
-                        {
-                            first_name: 'Eugene',
-                            last_name: 'Krabs',
-                            nickname: 'Mr.Crabs',
-                            highScore: 39,
-                            aggregatedRankings: {
-                                first: 1,
-                                second: 1,
-                                third: 1
-                            }
-                        },
-                        {
-                            first_name: 'Bob',
-                            last_name: 'SquarePants',
-                            nickname: 'SpongeBob',
-                            highScore: 52,
-                            aggregatedRankings: {
-                                first: 1,
-                                second: 2,
-                                third: 0
-                            }
-                        },
-                        {
-                            first_name: 'Patric',
-                            last_name: 'Star',
-                            nickname: 'Patric',
-                            highScore: 62,
-                            aggregatedRankings: {
-                                first: 2,
-                                second: 0,
-                                third: 1
-                            }
-                        }
-                    ])
+                    const $ = cheerio.load(res.text); // we load the whole rendered html responded by the server
+                    const names = []; // an array that will hold all names
+                    $('h4.title').each((i, elm) => names.push($(elm).text()));
+                    expect(names).to.have.same.members(['Eugene Krabs', 'Bob SquarePants', 'Patric Star']);
                 })
         });
     });
 
-    describe('GET /players/:nickname', async () => {
+    describe('GET /players/:nickname', () => {
         it('should show the player with nickname', () => {
             return request(app)
                 .get('/players/SpongeBob')
@@ -171,7 +142,7 @@ describe('PLAYER end-points', () => {
     });
 
     describe('POST /players', () => {
-        it('should respond with the newly crated player', async () => {
+        it('should respond with the newly crated player', () => {
             const data = {first_name: 'Squidward', last_name: 'Tentacles', nickname: 'Squidward'};
             return request(app)
                 .post('/players')
@@ -184,7 +155,7 @@ describe('PLAYER end-points', () => {
     });
 
     describe('PUT /players/:id', () => {
-        it('should respond with the newly crated player', async () => {
+        it('should respond with the newly crated player', () => {
             const data = {first_name: 'Squidward', last_name: 'Tentacles', nickname: 'Squidward'};
             const url = `/players/${playerIds[0]}`;
             return request(app)
