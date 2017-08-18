@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const moment = require('moment');
 
 const {makePlayersService} = require('../services/players');
 const {makeCommonServices} = require('../services/app/common');
@@ -12,6 +13,13 @@ module.exports = {
         const player = await playersService.getByNickname(nickname);
         const rankings = await playersService.getRankings(player);
 
-        return rankings.map(ranking => {return {gameId: ranking.gameId, rank: ranking.rank}});
+        return _.sortBy(rankings, ['date']).map(ranking => {
+            return {
+                gameId: ranking.gameId,
+                place: ranking.place,
+                date: moment(ranking.date).format('DD/MM/YYYY, HH:mm'),
+                rank: ranking.rank
+            }
+        });
     }
 };
