@@ -12,39 +12,34 @@
                 {#<div class="column is-half">#}
                     {#<div class="box">#}
                         {#<div class="columns">#}
-                            {#<div class="column">#}
+                            {#<div class="column is-4 column-centered">#}
                                 {#<div>#}
-                                    {#<img src="http://placehold.it/112x38" alt="" width="112" height="38">#}
-                                    {#<p>Winner: John</p>#}
-                                    {#<p>Score: 78</p>#}
+                                    {#<img class="avatar" src="http://placehold.it/100x100" alt="" width="100" height="100">#}
                                 {#</div>#}
                             {#</div>#}
-                            {#<div class="column border-left">#}
-                                {#<div class="border-left">#}
-                                    {#<p>Place: Milos</p>#}
-                                    {#<p>Event: Referendum Day</p>#}
-                                    {#<p>Date: 23/8/2016</p>#}
-                                {#</div>#}
-                            {#</div>#}
-                        {#</div>#}
-                    {#</div>#}
-                {#</div>#}
-
-                {#<div class="column is-half">#}
-                    {#<div class="box">#}
-                        {#<div class="columns">#}
                             {#<div class="column">#}
-                                {#<div>#}
-                                    {#<img src="http://placehold.it/112x38" alt="" width="112" height="38">#}
-                                    {#<p>Winner: John</p>#}
-                                    {#<p>Score: 78</p>#}
+                                {#<div class="column">#}
+                                    {#<div class="game-info">#}
+                                        {#<p>Place: Milos</p>#}
+                                        {#<p>Event: Referendum Day</p>#}
+                                        {#<p>Date: 23/8/2016</p>#}
+                                    {#</div>#}
                                 {#</div>#}
-                            {#</div>#}
-                            {#<div class="column border-left">#}
-                                {#<div class="border-left">#}
-                                    {#<p>Place: Milos</p>#}
-                                    {#<p>Event: Referendum Day</p>#}
-                                    {#<p>Date: 23/8/2016</p>#}
+                                {#<div class="column">#}
+                                    {#<div class="game-winners">#}
+                                        {#<div class="columns">#}
+                                            {#<div class="column game-winner">#}
+                                                {#<img src="http://placehold.it/70x70" alt="" width="70" height="70">#}
+                                                {#<p>Winner: John</p>#}
+                                                {#<p>Score: 78</p>#}
+                                            {#</div>#}
+                                            {#<div class="column game-winner">#}
+                                                {#<img src="http://placehold.it/70x70" alt="" width="70" height="70">#}
+                                                {#<p>Winner: John</p>#}
+                                                {#<p>Score: 78</p>#}
+                                            {#</div>#}
+                                        {#</div>#}
+                                    {#</div>#}
                                 {#</div>#}
                             {#</div>#}
                         {#</div>#}
@@ -60,46 +55,90 @@
                 <div class="column is-half">
                     <div class="box">
                         <div class="columns">
-
-                            <div class="column{% if game.winners.length == 1 %} is-4{% endif %}">
-                                <div class="columns">
-                                    {% for winner in game.winners %}
-                                        <div class="column column-centered">
-                                            <div class="game-winners">
-                                                <img class="avatar" src="http://placehold.it/100x100" alt="" width="100" height="100">
-                                                <p>{{ winner.player.first_name }} {{ winner.player.last_name }}</p>
-                                                <p>{{ winner.final }}</p>
-                                            </div>
-                                        </div>
-                                    {% endfor %}
+                            <div class="column is-4 column-centered">
+                                <div>
+                                    <img class="avatar" src="http://placehold.it/100x100" alt="" width="100" height="100">
                                 </div>
                             </div>
-
-                            <div class="column border-left padding-left">
-                                <div class="game-info">
-                                    <p>Place: {{ game.game.place }}</p>
-                                    <p>Event: {{ game.game.event }}</p>
-                                    <p>Date: {{ game.game.datetime.toLocaleString() }}</p>
+                            <div class="column">
+                                <div class="column">
+                                    <div class="game-info">
+                                        <p class="line-info">
+                                            <i class="fa fa-map-marker fa-fw" aria-hidden="true"></i>
+                                            <span class="game-data">{{ game.game.place }}</span>
+                                        </p>
+                                        {% if game.game.notes %}
+                                            <p class="line-info">
+                                                <i class="fa fa-commenting-o fa-fw" aria-hidden="true"></i>
+                                                <span class="game-data">{{ game.game.notes }}</span>
+                                            </p>
+                                        {% endif %}
+                                        <p class="line-info">
+                                            <i class="fa fa-calendar fa-fw" aria-hidden="true"></i>
+                                            <span class="game-data">{{ game.game.datetime.toLocaleString() }}</span>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="column">
+                                    <div class="{% if game.winners.length == 1 %}game-winners-wrapper{% else %}game-winners-wrapper-multiple{% endif %}">
+                                        <div class="columns">
+                                            {% for winner in game.winners %}
+                                                <div class="column game-winner-wrapper">
+                                                    <div class="game-winner-avatar">
+                                                        <img class="avatar" src="http://placehold.it/70x70" alt="" width="70" height="70">
+                                                    </div>
+                                                    <div class="game-winner-info">
+                                                        <p class="line-info">
+                                                            <i class="fa fa-user fa-fw" aria-hidden="true"></i>
+                                                            <span class="game-data">{{ winner.player.first_name }} {{ winner.player.last_name }}</span>
+                                                        </p>
+                                                        <p class="line-info">
+                                                            <i class="fa fa-trophy fa-fw" aria-hidden="true"></i>
+                                                            <span class="game-data">{{ winner.final }}</span>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
+
+
+
+
+
+                    {#<div class="box">#}
+                        {#<div class="columns">#}
+
+                            {#<div class="column{% if game.winners.length == 1 %} is-4{% endif %}">#}
+                                {#<div class="columns">#}
+                                    {#{% for winner in game.winners %}#}
+                                        {#<div class="column column-centered">#}
+                                            {#<div class="game-winners">#}
+                                                {#<img class="avatar" src="http://placehold.it/100x100" alt="" width="100" height="100">#}
+                                                {#<p>{{ winner.player.first_name }} {{ winner.player.last_name }}</p>#}
+                                                {#<p>{{ winner.final }}</p>#}
+                                            {#</div>#}
+                                        {#</div>#}
+                                    {#{% endfor %}#}
+                                {#</div>#}
+                            {#</div>#}
+
+                            {#<div class="column border-left padding-left">#}
+                                {#<div class="game-info">#}
+                                    {#<p>Place: {{ game.game.place }}</p>#}
+                                    {#<p>Event: {{ game.game.event }}</p>#}
+                                    {#<p>Date: {{ game.game.datetime.toLocaleString() }}</p>#}
+                                {#</div>#}
+                            {#</div>#}
+                        {#</div>#}
+                    {#</div>#}
                 </div>
 
-
-
-                {#<div class="tile is-parent">#}
-                    {#<article class="tile is-child box">#}
-                        {#{% for winner in game.winners %}#}
-                            {#<p class="title box">#}
-                                {#{{ winner.player.first_name }} {{ winner.player.last_name }} - {{ winner.final }}#}
-                                {#<span class="subtitle">Σειρά: {{ winner.order }}</span>#}
-                            {#</p>#}
-                        {#{% endfor %}#}
-                        {#<p class="subtitle">{{ game.game.datetime.toLocaleString() }}</p>#}
-                        {#{% if game.game.notes %}<p class="subtitle">{{ game.game.notes }}</p>{% endif %}#}
-                    {#</article>#}
-                {#</div>#}
                 {% if loop.index0 % 2 != 0 %}
                     </div>
                 {% endif %}

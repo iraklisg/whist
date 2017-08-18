@@ -2,16 +2,37 @@
 .column.column-centered {
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 
 img.avatar {
     border-radius: 50%;
 }
 
-.border-left {
-    border-left: 2px solid rgba(10, 10, 10, 0.1);
+.game-info {
+    border-bottom: 1px solid rgba(10, 10, 10, 0.1);
+    padding-bottom: 20px;
 }
 
-.padding-left {
-    padding-left: 30px;
+.line-info {
+    display: flex;
+}
+
+.line-info .fa {
+    font-size: 18px;
+    margin-right: 7px;
+    align-self: center;
+}
+
+.game-winners-wrapper-multiple .game-winner-wrapper {
+    display: flex;
+    justify-content: space-around;
+}
+
+.game-winners-wrapper .game-winner-wrapper {
+    display: flex;
+}
+
+.game-winners-wrapper .game-winner-avatar {
+    margin-right: 10px;
 }
