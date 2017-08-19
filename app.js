@@ -8,6 +8,7 @@ const nunjucks = require('nunjucks');
 const configDB = require('./config/database');
 const configServer = require('./config/server');
 const configViews = require('./config/views');
+const configStaticFiles = require('./config/staticFiles');
 
 const userRoutes = require('./routes/users');
 const playerRoutes = require('./routes/players');
@@ -27,7 +28,8 @@ mongoose.Promise = global.Promise;
 mongoose.connect(configDB.url, {useMongoClient: true});
 
 // Static files
-app.use('/static', express.static(`${__dirname}/public`));
+const virtualPathPrefix = configStaticFiles();
+app.use(virtualPathPrefix, express.static(`${__dirname}/public`));
 
 // Template engine configuration
 configViews(app, nunjucks);
