@@ -1,0 +1,72 @@
+{% extends 'base/index.nunj' %}
+
+
+{% block content %}
+
+    <div class="columns">
+        <div class="column">
+
+            <h1 class="title">Προσθέστε ένα παιχνίδι</h1>
+            <h2 class="subtitle">Εδώ μπορείτε να προσθέσετε ένα παιχνίδι whist</h2>
+
+            <form action="." method="post">
+
+                {#<div class="column">#}
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label for="g-datetime" class="label">Date/Time</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <input type="datetime-local" id="g-datetime" class="input">
+                        </div>
+                    </div>
+
+                    <div class="field-label is-normal">
+                        <label for="g-place" class="label">Place</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <input type="text" id="g-place" class="input">
+                        </div>
+                    </div>
+                </div>
+                {#</div>#}
+
+                <div class="columns">
+                    {% for pIndex in range(players.length) %}
+                        <div class="column">
+                            <div class="field is-grouped vertical">
+                                <div class="field is-horizontal">
+                                    <div class="field-label">
+                                        <label for="g-player-{{ pIndex }}" class="label">Επιλογή Παίκτη</label>
+                                    </div>
+                                    <div class="field-body control">
+                                        <div class="select">
+                                            <select id="g-player-{{ pIndex }}" name="player-select">
+                                                {% for player in players %}
+                                                    <option value="{{ player.nickname }}">{{ player.nickname|capitalize }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% for i in range(20) %}
+                                    <div class="field is-horizontal">
+                                        <div class="field-label">
+                                            <label for="g-point-{{ i + 1 }}" class="label{% if loop.index == 10 %} has-text-danger{% endif %}">Round #{{ i + 1 }}</label>
+                                        </div>
+                                        <div class="field-body control">
+                                            <input type="number" min="0" name="point-{{ i + 1 }}" id="g-point-{{ i + 1 }}">
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

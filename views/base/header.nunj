@@ -6,12 +6,27 @@
                 <a href="/">
                     <img src="/static/images/logo_2_opt.svg" alt="" width="112" height="38">
                 </a>
+                <div class="navbar-burger" data-target="mobile-nav">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
             </div>
 
-            <div class="navbar-menu">
+            <div id="mobile-nav" class="navbar-menu">
                 <div class="navbar-end">
-                    <a class="navbar-item" href="/games/">Παιχνίδια</a>
-                    <a class="navbar-item" href="/players/">Παίκτες</a>
+                    <div class="navbar-item has-dropdown is-hoverable">
+                        <a class="navbar-link is-active" href="/games/">Παιχνίδια</a>
+                        <div class="navbar-dropdown">
+                            <a href="/games/add" class="navbar-item">Προθήκη</a>
+                        </div>
+                    </div>
+                    <div class="navbar-item has-dropdown is-hoverable">
+                        <a class="navbar-link is-active" href="/players/">Παίκτες</a>
+                        <div class="navbar-dropdown">
+                            <a href="/players/add" class="navbar-item">Προθήκη</a>
+                        </div>
+                    </div>
                     <a class="navbar-item" href="/about/">Σχετικά</a>
                 </div>
             </div>

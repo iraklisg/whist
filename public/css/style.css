@@ -48,3 +48,7 @@ img.avatar {
 .game-player-info a {
     color: inherit;
 }
+
+.is-grouped.vertical {
+    flex-direction: column;
+}
