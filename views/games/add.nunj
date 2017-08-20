@@ -1,6 +1,11 @@
 {% extends 'base/index.nunj' %}
 
 
+{% block css_per_page %}
+    <link rel="stylesheet" href="https://unpkg.com/flatpickr/dist/flatpickr.min.css">
+{% endblock %}
+
+
 {% block content %}
 
     <div class="columns">
@@ -11,57 +16,94 @@
 
             <form action="." method="post">
 
-                {#<div class="column">#}
-                <div class="field is-horizontal">
-                    <div class="field-label is-normal">
-                        <label for="g-datetime" class="label">Date/Time</label>
-                    </div>
-                    <div class="field-body">
-                        <div class="field">
-                            <input type="datetime-local" id="g-datetime" class="input">
-                        </div>
-                    </div>
+                {# Date/Place/Picture/Notes all included in one line #}
+                <div class="columns">
+                    <div class="column">
+                        <div class="columns">
+                            {# DATE #}
+                            <div class="column is-narrow">
+                                <div class="field">
+                                    <label for="g-datetime" class="label">Ημ/νια</label>
+                                </div>
+                            </div>
+                            <div class="column is-2">
+                                <div class="field">
+                                    <input type="text" id="g-datetime" class="input">
+                                </div>
+                            </div>
 
-                    <div class="field-label is-normal">
-                        <label for="g-place" class="label">Place</label>
-                    </div>
-                    <div class="field-body">
-                        <div class="field">
-                            <input type="text" id="g-place" class="input">
+                            {# PLACE #}
+                            <div class="column is-narrow">
+                                <div class="field">
+                                    <label for="g-place" class="label">Τοποθεσία</label>
+                                </div>
+                            </div>
+                            <div class="column is-2">
+                                <div class="field">
+                                    <input type="text" id="g-place" class="input">
+                                </div>
+                            </div>
+
+                            {# PICTURE #}
+                            <div class="column is-narrow">
+                                <div class="file is-info">
+                                    <label class="file-label">
+                                        <input class="file-input" type="file" name="g-picture">
+                                        <span class="file-cta"><span class="file-icon"><i class="fa fa-upload"></i></span>
+                                          <span class="file-label">Φωτογραφία τοποθεσίας</span>
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            {# NOTES #}
+                            <div class="column is-narrow">
+                                <div class="field is-normal">
+                                    <label for="g-notes" class="label">Σημειώσεις</label>
+                                </div>
+                            </div>
+                            <div class="column">
+                                <div class="field is-normal">
+                                    <textarea id="g-notes" class="textarea" cols="5" rows="5"></textarea>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                {#</div>#}
 
                 <div class="columns">
                     {% for pIndex in range(players.length) %}
                         <div class="column">
-                            <div class="field is-grouped vertical">
-                                <div class="field is-horizontal">
-                                    <div class="field-label">
+                            <div class="columns">
+                                <div class="column is-narrow">
+                                    <div class="field is-normal">
+                                        {#<div class="label">#}
                                         <label for="g-player-{{ pIndex }}" class="label">Επιλογή Παίκτη</label>
                                     </div>
-                                    <div class="field-body control">
-                                        <div class="select">
-                                            <select id="g-player-{{ pIndex }}" name="player-select">
-                                                {% for player in players %}
-                                                    <option value="{{ player.nickname }}">{{ player.nickname|capitalize }}</option>
-                                                {% endfor %}
-                                            </select>
-                                        </div>
+                                </div>
+                                <div class="column">
+                                    <div class="select">
+                                        <select id="g-player-{{ pIndex }}" name="player-select">
+                                            {% for player in players %}
+                                                <option value="{{ player.nickname }}">{{ player.nickname|capitalize }}</option>
+                                            {% endfor %}
+                                        </select>
                                     </div>
                                 </div>
-                                {% for i in range(20) %}
-                                    <div class="field is-horizontal">
-                                        <div class="field-label">
-                                            <label for="g-point-{{ i + 1 }}" class="label{% if loop.index == 10 %} has-text-danger{% endif %}">Round #{{ i + 1 }}</label>
-                                        </div>
-                                        <div class="field-body control">
-                                            <input type="number" min="0" name="point-{{ i + 1 }}" id="g-point-{{ i + 1 }}">
-                                        </div>
-                                    </div>
-                                {% endfor %}
                             </div>
+
+                            {% for i in range(20) %}
+                            <div class="columns">
+                                <div class="column is-narrow">
+                                    <div class="field-label">
+                                        <label for="g-point-{{ i + 1 }}" class="label{% if loop.index == 10 %} has-text-danger{% endif %}">Round #{{ i + 1 }}</label>
+                                    </div>
+                                </div>
+                                <div class="column is-narrow">
+                                    <input class="input{% if loop.index == 10 %} is-danger{% endif %}" type="number" min="0" name="point-{{ i + 1 }}" id="g-point-{{ i + 1 }}">
+                                </div>
+                            </div>
+                            {% endfor %}
                         </div>
                     {% endfor %}
                 </div>
@@ -69,4 +111,22 @@
         </div>
     </div>
 
+{% endblock %}
+
+
+{% block js_libs_per_page %}
+    <script src="https://unpkg.com/flatpickr"></script>
+    <script src="https://npmcdn.com/flatpickr/dist/l10n/gr.js"></script>
+{% endblock %}
+
+{% block my_scripts %}
+    <script>
+        flatpickr("#g-datetime", {
+            enableTime: true,
+            time_24hr: true,
+            // altInput: true,
+            dateFormat: 'd/m/y H:i',
+            locale: 'gr'
+        });
+    </script>
 {% endblock %}

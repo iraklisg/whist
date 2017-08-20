@@ -49,6 +49,6 @@ img.avatar {
     color: inherit;
 }
 
-.is-grouped.vertical {
+.column.vertical {
     flex-direction: column;
 }

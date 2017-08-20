@@ -6,12 +6,43 @@
     <link href="{{ static('css/bulma.css') }}" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/hint.css/2.5.0/hint.min.css" rel="stylesheet" />
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    {% block css_per_page %}{% endblock %}
     <link href="{{ static('css/style.css') }}" rel="stylesheet" />
 
-    {#<link href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.5.0/css/bulma.css" rel="stylesheet" />#}
+    {#<link href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.5.1/css/bulma.css" rel="stylesheet" />#}
 </head>
 <body>
+    {# index_content is overriden inside index.html. Should NOT modified here. #}
     {% block index_content %}{% endblock %}
+
+    {# Javascript libraries will use this block. Should NOT modified here. #}
+    {% block js_libs_per_page %}{% endblock %}
+
+    {# Custom Javascript scripts will use this block. Should NOT modified here. #}
     {% block my_scripts %}{% endblock %}
+
+    {# For the mobile-look of the header navbar #}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get all "navbar-burger" elements
+            let $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+
+            // Check if there are any nav-burgers
+            if ($navbarBurgers.length > 0) {
+                // Add a click event on each of them
+                $navbarBurgers.forEach(function($el) {
+                    $el.addEventListener('click', function() {
+                        // Get the target from the "data-target" attribute
+                        let target = $el.dataset.target;
+                        let $target = document.getElementById(target);
+
+                        // Toggle the class on "navbar-burger"
+                        $target.classList.toggle('is-active');
+                        $el.classList.toggle('is-active');
+                    });
+                });
+            }
+        });
+    </script>
 </body>
 </html>

@@ -57,8 +57,13 @@
     <canvas id="myChart"></canvas>
 {% endblock %}
 
-{% block my_scripts %}
+
+{% block js_libs_per_page %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.16.2/axios.min.js"></script>
+{% endblock %}
+
+
+{% block my_scripts %}
     <script src="{{ static('js/players/listing.js') }}"></script>
 {% endblock %}
