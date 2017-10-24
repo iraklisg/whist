@@ -1,3 +1,3 @@
 module.exports = {
-  url: 'mongodb://localhost:27017/whist'
+  url: 'mongodb://mongo:27017/whist' //TODO node is the host name of the container
 };

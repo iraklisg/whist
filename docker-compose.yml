@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+  node:                                 # this will also be the hostname
+    build:
+      context: .                        # where we find the Dockerfile
+    volumes:
+      - ./:/opt/app
+      - notused:/opt/app/node_modules   # see also https://stackoverflow.com/questions/29181032/add-a-volume-to-docker-but-exclude-a-sub-folder
+    ports:
+      - 8080:3000                       # publish exposed 3000 to host's 8080
+  mongo:
+    image: mongo
+volumes:
+  notused:
+
